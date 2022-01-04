@@ -32,5 +32,5 @@
 * HTML5 Geolocation API
 * kakao map API
 * 게시판 댓글처리
-* 게시판 조회수를 활용한 인기글
+* 게시판 조회수를 활용한 인기글 
 * AJAX를 활용하여 실시간 채팅 구현
