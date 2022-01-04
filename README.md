@@ -1,4 +1,4 @@
-# HTML Geolocation API와 kakao map API를 활용한  코로나 정보 웹사이트
+# HTML Geolocation API와 kakao map API를 활용한 지역맞춤 코로나 정보 웹사이트
 
 ## 홈 화면
 <img src=https://user-images.githubusercontent.com/59141956/148087712-b1987911-620c-4021-b151-5e002c389c30.jpeg width="80%" hiegt="80">
