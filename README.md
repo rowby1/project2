@@ -9,7 +9,7 @@
 ## 예방접종센터
 ![center](https://user-images.githubusercontent.com/59141956/148088260-540861ac-a4d3-4026-8266-c6d8647ebbd0.png)
 
-## 개인 코로나 정보 저장
+## 개인 코로나 정보
 ![covidinfo](https://user-images.githubusercontent.com/59141956/148088210-abe45553-6e33-429c-9c59-e3b3ff37984d.png)
 
 ## 커뮤니티 게시판
