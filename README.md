@@ -27,6 +27,8 @@
 * Servlet
 * JavaScript
 * jQuery
+* Chart.js
+* Bootstrap5
 * HTML5 Geolocation API
 * kakao map API
 * 게시판 댓글처리
