@@ -21,6 +21,7 @@ public class LogoutAction implements Action {
 		
 		String path = "/view/Home.jsp";
 		response.sendRedirect(path);
+		
 	}
 
 }

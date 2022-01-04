@@ -42,7 +42,7 @@ public class CovidStatusChart extends HttpServlet {
 		// String  gubun = request.getParameter("gubun");
 		CovidStatusDao csDao = new CovidStatusDao();
 		Fnc fnc = new Fnc();
-		String period = request.getParameter("period");
+		int period = Integer.parseInt(request.getParameter("period"));
 		LocalDate today = LocalDate.now();
 		
 		String api = fnc.getDataPeriod(0).toString();
@@ -67,6 +67,7 @@ public class CovidStatusChart extends HttpServlet {
 		String xml = "";
 		
 		NodeList itemList = doc.getElementsByTagName("item");
+		System.out.println("itemLIst len : " + itemList.getLength());
 		
 		
 		if (itemList.getLength() == 0) {
@@ -101,8 +102,8 @@ public class CovidStatusChart extends HttpServlet {
 				}
 			
 			//DB에서 15일치 들고와서 뿌림
-			xml = csDao.getPeriodData(15).toString();
-			//json = vsDao.getPeriodData(period).toString();
+			//xml = csDao.getPeriodData(15).toString();
+			xml = csDao.getPeriodData(period).toString();
 		} else {
 			
 			Node itemNode = itemList.item(0);
@@ -152,8 +153,8 @@ public class CovidStatusChart extends HttpServlet {
 				//  dataGap = 0 오늘꺼, dataGap = 1 오늘꺼, 어제꺼, dateGap = 2 오늘꺼, 어제꺼, 2일전꺼 .........
 				}
 			//DB에서 15일치 들고와서 뿌림
-			xml = csDao.getPeriodData(15).toString();
-			//json = vsDao.getPeriodData(period).toString();
+			//xml = csDao.getPeriodData(15).toString();
+			xml = csDao.getPeriodData(period).toString();
 			}
 		
 		response.setContentType("application/xml;charset=UTF-8");
@@ -220,7 +221,6 @@ public class CovidStatusChart extends HttpServlet {
 			}
 			br.close();
 			conn.disconnect();
-			System.out.println("sb.toString :" + sb.toString() );
 			
 			return sb;
 		}

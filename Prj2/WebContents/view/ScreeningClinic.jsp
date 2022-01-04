@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="/css/prj2.css">
 
 <title>Insert title here</title>
@@ -259,15 +261,16 @@ function myFunction() {
 
 <div class="title" id="mytitle"><h2>선별진료소</h2></div>
  <%@ include file="/include/topnav.jsp" %>
-<%@ include file="/include/chat.jsp" %>
-	<div class="map_wrap">
+ 
+   	<div class="container-fluid">
+	<div class="map_wrap p-2 shadow rounded">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
     <div id="menu_wrap" class="bg_white">
         <div class="option">
             <div>
                 <form onsubmit="searchPlaces();" id="formSearch">
-                    키워드 : <input type="text" value="예방접종센터 ${sido } ${sigungu}" id="keyword" size="15"> 
+                    키워드 : <input type="text" value="선별진료소 ${sido } ${sigungu}" id="keyword" size="15"> 
                     <button type="button" id="doSearch">검색하기</button> 
                 </form>
             </div>
@@ -275,6 +278,7 @@ function myFunction() {
         <hr>
         <ul id="placesList"></ul>
         <div id="pagination"></div>
+    </div>
     </div>
 </div>
 <%@ include file="/include/bottomnav.jsp" %>

@@ -378,6 +378,10 @@
 	
 	window.onload = function(){
 		
+		// vaildation : form태그 onsubmit 에 check 함수 연결
+		var frm = document.getElementById('frm');
+		frm.onsubmit = check;
+		
 		/* var search = document.getElementById('searchlocation');
 		search.onclick = function(){
 
@@ -452,7 +456,7 @@
 		</div>
 		<!-- /.card-header -->
 		<div class="card-body">
-			<form action="/mboard?cmd=REGISTRATION" method="POST" onsubmit="return check()">
+			<form action="/mboard?cmd=REGISTRATION" method="POST" id="frm" >
 			<h4 align="center">환영합니다</h4>
 			<div class="form-group">
 				<label for="exampleInputBorder">ID<code id="usableId"><!-- 사용가능한 아이디 --></code></label>

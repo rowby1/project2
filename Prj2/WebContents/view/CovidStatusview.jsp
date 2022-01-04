@@ -8,15 +8,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="/css/prj2.css">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 <title>Insert title here</title>
 <style></style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" ></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.esm.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/helpers.esm.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js" integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>  
+  <link rel="stylesheet" href="/css/prj2.css">
 <script>
 $( function() {
    
@@ -32,22 +34,23 @@ $( function() {
 // header 461
 function  header() {
 	
-	var head = '<tr>';
-	head += '<td>시도명</td>';
-	head += '<td>확진자 수</td>';
-	head += '<td>사망자 수</td>';
-	head += '<td>전일대비 증감 수</td>';
-	head += '<td>지역발생 수</td>';
-    head += '<td>격리 해제 수</td>';
-    head += '<td>10만명당 발생률</td>';
-    head += '<td>기준일시</td>';
+	var head = '<thead>';
+	head = '<tr>';
+	head += '<th>시도명</th>';
+	head += '<th>확진자 수</th>';
+	head += '<th>사망자 수</th>';
+	head += '<th>전일대비 증감 수</th>';
+	head += '<th>지역발생 수</th>';
+    head += '<th>격리 해제 수</th>';
+    head += '<th>10만명당 발생률</th>';
+    head += '<th>기준일시</th>';
     head += '</tr>'; 
+    head += '</thead>'; 
 		return head;
 	}
 
 
 var sido      = '${ sido }';
-console.log("sido:" + sido);
 
 // 시도 변환
 
@@ -160,7 +163,7 @@ function myFunction() {
       $.ajax( {
          //url     : 'http://localhost:9090/CovidStatus/covidstatus',
          url     : 'http://localhost:9090/covidstatuschart',
-         // data    : { gubun : $('#gubun').val() },
+          data    : { period : 15 },
          type    : 'GET',
          success : function( xml ) {
             console.log(xml);
@@ -174,11 +177,11 @@ function myFunction() {
             
             // console.log("uSido : " + uSido);
             
-            var set1 = new Set();
+/*          var set1 = new Set();
             var set2 = new Set();
             var set3 = new Set();
             var set4 = new Set();
-            var set5 = new Set();
+            var set5 = new Set(); */
             
             var name1 = '';
             var name2 = '';
@@ -210,7 +213,7 @@ function myFunction() {
             
 
                 
-            var html = '';
+            var html = '<tbody>';
             
             $(xml).find('item').each(function( index ) {
             	
@@ -229,8 +232,8 @@ function myFunction() {
                   
                   
                   
-                  html += '<tr class="row" id="row">';
-                  html += '<td id="area" class = "area">' + gubun +'</td>';
+                  html += '<tr >';
+                  html += '<td >' + gubun +'</td>';
                   html += '<td>' + defCnt +'</td>';
                   html += '<td>' + deathCnt +'</td>';
                   html += '<td>' + incDec +'</td>';
@@ -244,17 +247,17 @@ function myFunction() {
                   // set1.add(0+(19*index)); // 합계
                   // set1.add(1+(19*index)); // 서울
                   
-                  set1.add(1+(19*index));  // 중간에 검역이 끼어 있어서 19로 해야함
+                  //set1.add(1+(19*index));  // 중간에 검역이 끼어 있어서 19로 해야함
               	
-                  set2.add(2+(19*index)); 
+                  //set2.add(2+(19*index)); 
                   	
-                  set3.add(3+(19*index)); 
+                  //set3.add(3+(19*index)); 
                   	
-                  set4.add(4+(19*index)); 
+                  //set4.add(4+(19*index)); 
                   
                   // 이름은 처음 값만 받으면 됨
                   
-                  if(set1.has(index)==true && index == 1){
+                  if(index == 1){
                 	  name1 = gubun;
                   }
                   if(gubun==name1) {
@@ -263,7 +266,7 @@ function myFunction() {
                 	  xArr.push(stdDay);	  
                   }
                   
-                  if(set2.has(index)==true && index == 2){
+                  if(index == 2){
                 	  name2 = gubun;
                   }
                   if(gubun==name2) {
@@ -271,7 +274,7 @@ function myFunction() {
                 	  yArrinc2.push(incDec);
                   }
                   
-                  if(set3.has(index)==true && index == 3){
+                  if(index == 3){
                 	  name3 = gubun;
                   }
                   if(gubun==name3) {
@@ -279,7 +282,7 @@ function myFunction() {
                 	  yArrinc3.push(incDec);
                   }
                   
-                  if(set4.has(index)==true && index == 4){
+                  if(index == 4){
                 	  name4 = gubun;
                   }
                   if(gubun==name4) {
@@ -353,6 +356,7 @@ function myFunction() {
                            label : sido, // 데이터 범례
                            data : yArr5, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
                            borderColor : "black",
+							backgroundColor : "black",
                            fill : false,
                            hidden: hd
                         },
@@ -360,24 +364,28 @@ function myFunction() {
                            label : name1, // 데이터 범례
                            data : yArr1, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
                            borderColor : "red",
+							backgroundColor : "red",
                            fill : false
                         },
                            {
                            label : name2, 
                            data : yArr2, 
                            borderColor : "green",
+							backgroundColor : "green",
                            fill : false
                         },
                            {
                            label : name3, 
                            data : yArr3, 
                            borderColor : "blue",
+							backgroundColor : "blue",
                            fill : false
                         },
                            {
                            label : name4, 
                            data : yArr4, 
                            borderColor : "yellow",
+							backgroundColor : "yellow",
                            fill : false
                         }
                         ]
@@ -425,6 +433,7 @@ function myFunction() {
                      label : sido, // 데이터 범례
                      data : yArrinc5, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
                      borderColor : "black",
+						backgroundColor : "black",
                      fill : false,
                      hidden: hd
                   },
@@ -432,24 +441,28 @@ function myFunction() {
                      label : name1, // 데이터 범례
                      data : yArrinc1, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
                      borderColor : "red",
+						backgroundColor : "red",
                      fill : false
                   },
                      {
                      label : name2, 
                      data : yArrinc2, 
                      borderColor : "green",
+						backgroundColor : "green",
                      fill : false
                   },
                      {
                      label : name3, 
                      data : yArrinc3, 
                      borderColor : "blue",
+						backgroundColor : "blue",
                      fill : false
                   },
                      {
                      label : name4, 
                      data : yArrinc4, 
                      borderColor : "yellow",
+						backgroundColor : "yellow",
                      fill : false
                   }
                   ]
@@ -509,7 +522,7 @@ function myFunction() {
 
             
             
-            var html = '';
+            var html = '<tbody>';
             $(xml).find('item').each(function( index ) {
             	
             	
@@ -524,8 +537,8 @@ function myFunction() {
                var stdDay = $(this).find('stdDay').html();
                
                
-               html += '<tr class="row" id="row">';
-               html += '<td id="area" class = "area">' + gubun +'</td>';
+               html += '<tr >';
+               html += '<td >' + gubun +'</td>';
                html += '<td>' + defCnt +'</td>';
                html += '<td>' + deathCnt +'</td>';
                html += '<td>' + incDec +'</td>';
@@ -538,6 +551,8 @@ function myFunction() {
                
                /* countrysaveFunction($(this).find('nationNm').html(), $(this).find('natDefCnt').html()); */
             })
+            html += '</tbody>';
+            console.log('table1' + html);
             $('#table1').append(html)
             
                      
@@ -571,7 +586,7 @@ function myFunction() {
       $.ajax( {
          //url     : 'http://localhost:9090/CovidStatus/covidstatus',
          url     : 'http://localhost:9090/covidstatuschart',
-         // data    : { gubun : $('#gubun').val() },
+          data    : { period : 15 },
          type    : 'GET',
          success : function( xml ) {
             console.log(xml);
@@ -748,7 +763,7 @@ function myFunction() {
             var yArrGapnatDefCntkor = new Array(); 
             var yArrGapnatDefCntsearch = new Array();
    
-            var html = '';
+            var html = '<thead>';
             html		+= '<tr>';
             html		+= '<td>시도명</td>';
             html		+= '<td>확진자 수</td>';
@@ -759,6 +774,9 @@ function myFunction() {
             html		+= '<td>10만명당 발생률</td>';
             html		+= '<td>기준일시</td>';
             html		+= '</tr>';
+            html		+= '</thead>';
+            html		+= '<tbody>';
+            
             $(xml).find('item').each(function( index ) {
                if($(this).find('gubun').html()==chart1search || $(this).find('gubun').html()==sido){
                   
@@ -776,8 +794,8 @@ function myFunction() {
                   
                   
                   
-                  html += '<tr class="row" id="row">';
-                  html += '<td id="area" class = "area">' + gubun +'</td>';
+                  html += '<tr>';
+                  html += '<td>' + gubun +'</td>';
                   html += '<td>' + defCnt +'</td>';
                   html += '<td>' + deathCnt +'</td>';
                   html += '<td>' + incDec +'</td>';
@@ -793,6 +811,7 @@ function myFunction() {
                
                /* countrysaveFunction($(this).find('nationNm').html(), $(this).find('natDefCnt').html()); */
             })
+            html += '</tbody>';
             $('#table2').html(html)
                   
                },
@@ -835,7 +854,6 @@ function myFunction() {
 
 <div class="title" id="mytitle"><h2>코로나 현재상황</h2></div>
  <%@ include file="/include/topnav.jsp" %>
-<%@ include file="/include/chat.jsp" %>
   <div>
     <main>   
  
@@ -849,14 +867,16 @@ function myFunction() {
 <!--    <label>나라명:</label>
    <input type="text" id="chart1search">
    <input type="button" id="chart1searchbutton" value="검색"> -->
-   
-        	<div id ="CovidChart1">	
+   	<div class="container-fluid">
+   		<div class="row">
+        	<div id ="CovidChart1" class="col col-sm-6  shadow rounded">	
 	<div class ="countryCovidChartDiv">국내 확진자 현황</div>
    		<canvas id="myChart1" ></canvas>
    		</div>
-        	<div id ="CovidChart2">	
+        	<div id ="CovidChart2" class="col col-sm-6  shadow rounded">	
 	<div class ="countryCovidChartDiv">확진자 전일대비 증감 수</div>
    		<canvas id="myChart2" ></canvas>
+   		</div>
    		</div>
          
 
@@ -871,48 +891,55 @@ function myFunction() {
 <!--    <label>나라명:</label>
    <input type="text" id="chart1search">
    <input type="button" id="chart1searchbutton" value="검색"> -->
-   
-             <div id ="CovidChart3">
+      	<div class="container-fluid">
+      	   		<div class="row">
+             <div id ="CovidChart3" class="col col-sm-6 shadow rounded">
 		<div id = "search1" class ="countryCovidChartDiv">확진자 현황</div>
    		<canvas id="myChart3" ></canvas>
    		</div>
-             <div id ="CovidChart4">
+             <div id ="CovidChart4" class="col col-sm-6 shadow rounded">
 		<div id = "search1" class ="countryCovidChartDiv">확진자 전일대비 증감 수</div>
    		<canvas id="myChart4" ></canvas>
    		</div>
 
+	</div>
+	</div>
    </div>
       
    
    <div class="table1">
    <div  class ="countryCovidChartDiv">국내 코로나현황표</div>
-   <table id="table1" >
+   <table id="table1" class="table table-striped" >
+   	<thead>
      <tr>
-       <td>시도명</td>
-       <td>확진자 수</td>
-       <td>사망자 수</td>
-       <td>전일대비 증감 수</td>
-       <td>지역발생 수</td>
-       <td>격리 해제 수</td>
-       <td>10만명당 발생률</td>
-       <td>기준일시</td>
+       <th>시도명</th>
+       <th>확진자 수</th>
+       <th>사망자 수</th>
+       <th>전일대비 증감 수</th>
+       <th>지역발생 수</th>
+       <th>격리 해제 수</th>
+       <th>10만명당 발생률</th>
+       <th>기준일시</th>
      </tr>
+     </thead>
    </table>
    </div>
    
    <div class="table2">
 	<div id = "search4" class ="countryCovidChartDiv">국내 코로나현황표</div>
-   <table id="table2" >
+   <table id="table2" class="table table-striped">
+ 	<thead>
      <tr>
-       <td>시도명</td>
-       <td>확진자 수</td>
-       <td>사망자 수</td>
-       <td>전일대비 증감 수</td>
-       <td>지역발생 수</td>
-       <td>격리 해제 수</td>
-       <td>10만명당 발생률</td>
-       <td>기준일시</td>
+       <th>시도명</th>
+       <th>확진자 수</th>
+       <th>사망자 수</th>
+       <th>전일대비 증감 수</th>
+       <th>지역발생 수</th>
+       <th>격리 해제 수</th>
+       <th>10만명당 발생률</th>
+       <th>기준일시</th>
      </tr>
+     </thead>
    </table>
    </div>
    

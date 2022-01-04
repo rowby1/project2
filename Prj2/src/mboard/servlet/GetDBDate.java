@@ -1,6 +1,7 @@
 package mboard.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +19,10 @@ public class GetDBDate extends HttpServlet {
 		
 		CountryCovidStatusDao ccsDao = new CountryCovidStatusDao();
 		int date = ccsDao.getDBDate();
-		System.out.println("getdbdate:"+date);
-		
-		request.setAttribute("date", date);
+
+		PrintWriter out = response.getWriter();
+		out.print(date);
+		out.close();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

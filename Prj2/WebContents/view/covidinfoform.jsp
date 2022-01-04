@@ -8,6 +8,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="/css/prj2.css">
 <title>Insert title here</title>
 
@@ -17,7 +19,7 @@
 <body>
 
   <form class="modal-content" action="/mboard?cmd=COVIDINFO" method="POST">
-    <div class="container">
+    <div class="container Covid">
     <div>
     <div class="covidinfotitle">
       개인 코로나 정보 입력

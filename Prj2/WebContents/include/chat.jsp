@@ -59,7 +59,10 @@
 		}
 
 		function autoClosingAlert(selector, delay) {
+			var alert = $(selector).alert();
+			alert.show();
 			window.setTimeout(function() {
+				alert.hide()
 			}, delay);
 		}
 		/* 채팅리스트 가져오기 */
@@ -123,6 +126,7 @@
 				if ($("#icon").attr("class") == "far fa-comment-dots") {
 	                $("#icon").attr("class", "fas fa-comment-dots");
 	                $("#_chatbox").css("display", "none");
+	                alert(timer);
 	                stopgetchat();
 	            }
 			}
@@ -160,7 +164,24 @@
 	
 	
 	//채팅 아이콘 버튼 릴리즈 놓기
+dragElement(document.getElementById("mydiv"));
 
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    /* if present, the header is where you move the DIV from:*/
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
 	})
 	
 	//채팅창 드래그 기능
@@ -235,9 +256,9 @@
 
 
 
-	<div class="container" id="_chatbox" style="display: none">
-		<div class="container boostrap snippet">
-			<div class="row" >
+	<div class="container Chat" id="_chatbox" style="display: none">
+		<div class="container Chat boostrap snippet">
+			<div class="row Chat" >
 				<div class="col-xs-12" id="chatborder" > 
 					<div class="portlet portlet-default" id="_chatboxheader">
 						<div class="portlet-title" >
@@ -247,18 +268,18 @@
 						 <div id="chatb"  class="clearfix"></div>
 						 	
 					</div>
-						<div id="chat" class="panel-collapse collapse in">
+						<div id="chat Chat" class="panel-collapse collapse in">
 							<div id="chatList" class="portlet-body chat-widget" style="overflow-y:auto; width: auto; height: 500px;">
 				 
 							</div>
 							<div class="portlet-footer">
-								<div class="row">
+								<div class="row Chat">
 									<div class="form-group col-xs-4" id="chatNameDiv">
 										<input style="height: 40px;" type="text" id="chatName"
 											class="form-control" placeholder="이름" maxlength="8">
 									</div>
 								</div>
-								<div class="row" style="height: 90px">
+								<div class="row Chat" style="height: 90px">
 									<div class="form-group col-xs-10" id="chatContentDiv">
 										<textarea style="height: 80px;" id="chatContent" class="form-control" placeholder="메시지를 입력하세요" maxlength="100"></textarea>
 									</div>

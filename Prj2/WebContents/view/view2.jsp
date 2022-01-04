@@ -25,9 +25,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="/css/prj2.css">
 <title>Insert title here</title>
 <style>
+	.container {width: 80%;}
     /* board tr 7개  */
 	#board   td:nth-of-type(1) {width:100px;}
 	#board   td:nth-of-type(2) {width:700px;}
@@ -174,11 +177,11 @@ alert(i);
 
  <div class="title" id="mytitle"><h2>게시판</h2></div>
  <%@ include file="/include/topnav.jsp" %>
- <%@ include file="/include/chat.jsp" %>
 
    <main>
+   <div class="container">
 	<%-- <%@ include file="/include/menus.jsp" %> --%>
-	<table class="boardlisttable">
+	<table class="boardlisttable table">
 	 <caption><h2>게시판 내용보기</h2></caption>
 	 <tr>
 	   <td>글번호</td>
@@ -240,6 +243,7 @@ alert(i);
 	 </tr>
 	   </c:forEach>
 	</table>
+	</div>
    </main>
    <%@ include file="/include/bottomnav.jsp" %>
 </body>

@@ -4,493 +4,169 @@
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
-/* HOME  */
-
-.iframebox {
- width: 96%;
- margin-left: 2%
+.title{
+text-align: center;
 }
-
-
-.iframebox iframe {
- width: 100%;
- height: 600px;
-}​
-​
-.iframebox #ifm1 {
- width: 100%;
- height: 1300px;
-}​
-
-.body {
-	border : 1px solid blue;
-}
-
-.homehomerow {
-	display: flex;
-}
-
-.right {
- background-color: white;
- border : 1px solid #333333;
- border-radius :  10px;
-  float: left;
-  width: 47%;
-  padding: 10px 15px;
-  margin-top: 7px;
-  margin-left: 10px;
-  margin-right: 10px;
-    height : 200px;
-}
-.right1 {
-		flex : 1;
-   background-color: white;
- border : 1px solid #333333;
-  border-radius :  10px;
- 
-  float: left;
-  width: 47%;
-  padding: 10px 15px;
-  margin-top: 7px;
-  margin-left: 10px;
-  margin-right: 10px;
-    height : 200px;
-    overflow: auto;
-}
-.right2 {
-	background-color: white;
- 	border : 1px solid #333333;
- 	border-radius :  10px;
-  float: left;
-  width: 24%;
-  padding: 10px 15px;
-  margin-top: 7px;
-  margin-left: 10px;
-  margin-right: 10px;
-  height : 200px;
-  overflow: auto;
-  
-}
-.right3 {
-	background-color: white;
-	border : 1px solid #333333;
- 	border-radius :  10px;
-  float: left;
-  width: 47%;
-  padding: 10px 15px;
-  margin-top: 7px;
-  margin-left: 10px;
-  margin-right: 10px;
-  height : 200px;
-  overflow : auto;
-}
-
-@media only screen and (max-width:1000px) {
-  /* For tablets: */
-
-  .right {
-    width: 100%;
-  }
-   .right1 {
-    width: 100%;
-  }
-   .right2 {
-    width: 100%;
-  }
-   .right3 {
-    width: 100%;
-  }
-}
-@media only screen and (max-width:500px) {
-  /* For mobile phones: */
-   .right {
-    width: 100%;
-  }
-}
-
-/* 로그아웃 회원정보 개인 코로나정보  */
-.toptopnav {
-  overflow: hidden;
-  background-color: #333;
-}
+	#mytitle {text-align: center}
+	.countryCovidChartDiv{text-align: center;}	
+/* 선별진료소 */
+	.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+	.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
+	.map_wrap {position:relative;width:100%;height:500px;}
+	#menu_wrap {position:absolute;top:0;left:0px;bottom:0;width:350px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+	.bg_white {background:#fff;}
+	#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+	#menu_wrap .option{text-align: center;}
+	#menu_wrap .option p {margin:10px 0;}  
+	#menu_wrap .option button {margin-left:5px;}
+	#placesList li {list-style: none;}
+	#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+	#placesList .item span {display: block;margin-top:4px;}
+	#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+	#placesList .item .info{padding:10px 0 10px 55px;}
+	#placesList .info .gray {color:#8a8a8a;}
+	#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+	#placesList .info .tel {color:#009900;}
+	#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+	#placesList .item .marker_1 {background-position: 0 -10px;}
+	#placesList .item .marker_2 {background-position: 0 -56px;}
+	#placesList .item .marker_3 {background-position: 0 -102px}
+	#placesList .item .marker_4 {background-position: 0 -148px;}
+	#placesList .item .marker_5 {background-position: 0 -194px;}
+	#placesList .item .marker_6 {background-position: 0 -240px;}
+	#placesList .item .marker_7 {background-position: 0 -286px;}
+	#placesList .item .marker_8 {background-position: 0 -332px;}
+	#placesList .item .marker_9 {background-position: 0 -378px;}
+	#placesList .item .marker_10 {background-position: 0 -423px;}
+	#placesList .item .marker_11 {background-position: 0 -470px;}
+	#placesList .item .marker_12 {background-position: 0 -516px;}
+	#placesList .item .marker_13 {background-position: 0 -562px;}
+	#placesList .item .marker_14 {background-position: 0 -608px;}
+	#placesList .item .marker_15 {background-position: 0 -654px;}
+	#pagination {margin:10px auto;text-align: center;}
+	#pagination a {display:inline-block;margin-right:10px;}
+	#pagination .on {font-weight: bold; cursor: default;color:#777;}
+	
+	
+/* 게시판 */
 
 
-.toptopnav a {
-  float: right;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 8px 7px;
-  text-decoration: none;
-  font-size: 12px;
+.vacantrow{
+	background : white;
 }
-.toptopnavtitle {
+.toboardtd {
+	padding : 0;
+	background : white;
+}
+.toboardlist {
+	width : 25%;
   float: left;
   left : 0;
   display: block;
   color: #f2f2f2;
   text-align: center;
-  padding: 1px 7px;
+  padding : 7px;
   text-decoration: none;
-  font-size: 10px;
+  font-size: 15px;
+  font-weight : bold;
+  background: #04AA6D;
 }
-
-
-.toptopnavtitle:hover {
-  background-color: #ddd;
+.toboardlist:hover {
+  background-color: #f2f2f2;
   color: black;
 }
 
-.toptopnavtitle.active {
+.toboardlist.active {
   background-color: #04AA6D;
   color: white;
   
 }
-.toptopnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.toptopnav a.active {
-  background-color: #04AA6D;
-  color: white;
-  
-}
-
-.toptopnav .icon {
-  display: none;
-}
-
-.addlink {
-	text-align: right;
-	text-decoration: none;
-	
-}
-
-
-@media screen and (max-width: 500px) {
-  .toptopnav a:not(:first-child) {display: none;}
-  .toptopnav a.icon {
-    float: right;
-    display: block;
-  }
-} 
-
-
- @media screen and (max-width: 500px) {
-  .toptopnav.responsive {position: relative;}
-  .toptopnav.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
- 	.toptopnav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  } 
-} 
-
-.addlink {
-	display : block;
-	float:right; 
-	
-}
-
-/* 제목  */
-
-.title h2 {
-
-  display: block;
-/*   color: #f2f2f2; */
-  text-align: center;
-  padding: 14px 16px;
-  font-size: 30px;
-}
-
-
-/* 사회적거리두기, 코로나현재상황, 예방접종통계, 예방접종센터, 선별진료소, 코로나뉴스  */
-.topnavtitle{
-	font-weight : bold;
-}
-.topnav {
-  overflow: hidden;
-  background-color: #333;
-}
-
-.topnav a {
+.toboardlist1 {
+	width : 100%;
   float: left;
+  left : 0;
   display: block;
   color: #f2f2f2;
   text-align: center;
-  padding: 14px 16px;
+  padding : 7px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 15px;
+  font-weight : bold;
+  background: #04AA6D;
 }
-
-.topnav a:hover {
-  background-color: #ddd;
+.toboardlist1:hover {
+  background-color: #f2f2f2;
   color: black;
 }
 
-.topnav a.active {
+.toboardlist1.active {
   background-color: #04AA6D;
   color: white;
-}
-
-.topnav .icon {
-  display: none;
-}
-
-/* 소제목  */
-
-.smalltitle h2 {
-
-  display: block;
-  text-align: left;
-  padding: 0px 10px;
-  font-size: 20px;
-}
-
-
-
-@media screen and (max-width: 900px) {
-  .topnav a:not(:first-child) {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-  }
-} 
-
- @media screen and (max-width: 900px) {
-  .topnav.responsive {position: relative;}
-  .topnav.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
- 	.topnav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  } 
-} 
-/* 사회적 거리두기 본문 이미지  */
-
-.responsive {
-  width: 100%;
-  height: auto;
-}
-
-
-
-/* 본문 테이블  */
-/* body {background-color : gray;} */
-.hidden-col { display : none; }
-
- table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-} 
-
-th, td {
-  text-align: left;
-  padding: 8px;
-}
-
-
-
-tr:nth-child(even){background-color: #f2f2f2}
-
-
-/*해외 코로나 */
-/* Full-width input fields */
-
-#chart1searchlabel {
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  opacity: 0.9;
-  font-weight: bold;
-}
-#chart1search {
-  padding: 15px;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
-
-/* Add a background color when the inputs get focus */
-
-
-#chart1search:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-/* Set a style for all buttons */
-#chart1searchbutton {
-  background-color: #04AA6D;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  opacity: 0.9;
-}
-.chart1searchbutton {
-  background-color: #04AA6D;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  opacity: 0.9;
-}
-
-#chart1searchbutton:hover {
-  opacity:1;
-}
-
-
-.table1, .table2  {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 96%;
-  margin-left: 2%;
-  float : left;
-}
-#homenews, #homevideonews  {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 96%;
-  margin-left: 2%;
-  float : left;
-}
-#homenewstitle, #homevideonewstitle, #noshowvaccinehome {
-  background-color: #333;
-  color: white;
-  padding: 7px 8px;
   
-  text-align: center;
 }
 
+#boardlist {
+	width: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
+}
 
-#noshowvaccine, #countryCovidChart6,#countryCovidChart5,#vacstatushome1 {
-	margin-top: 7px;
-	margin-left: 2%;
-	width: 48%;
-	float: left;
-	text-align: center;
+#boardlisttable   tr:nth-of-type(1)  {
+	font-weight: bold; 
+	background-color: #04AA6D; 
+	color: #f2f2f2;
+	}
+
+#boardlisttable {
+/* 	margin-right : 8%;
+	margin-left : 8%; */
+  border-collapse: collapse;
+  border-spacing: 0;
+	width: 90%;
+		margin-left: 5%;
+	margin-right: 5%;
+  background-color: rgb(220, 222, 222);
+ /*  border: 1px solid blue; */
+}
+
+.boardlisttable   tr:nth-of-type(1)  {
+	font-weight: bold; 
+	background-color: #04AA6D; 
+	color: #f2f2f2;
+	}
+	#commenttitle   {
+	font-weight: bold; 
+	background-color: #04AA6D; 
+	color: #f2f2f2;
+	}
+	#commentlist  {
+	font-weight: bold; 
+	background-color: #04AA6D; 
+	color: #f2f2f2;
+	}
+
+.boardlisttable {
+/* 	margin-right : 8%;
+	margin-left : 8%; */
+  border-collapse: collapse;
+  border-spacing: 0;
+	width: 90%;
+		margin-left: 5%;
+	margin-right: 5%;
+  background-color: rgb(220, 222, 222);
+ /*  border: 1px solid blue; */
+}
+.ctext                     { height:50px; width:90%; }
+#boardcontent {
+	height : 500px;
+}
+#boardcontent1 {
+	background : white;
+}
 	
-}
-#covidCharthome1, #countryCovidCharthome1{
-	margin-top: 7px;
-	margin-left: 2%;
-	width: 48%;
-	float: left;
-	text-align: center;
 	
-}
-#countryCovidCharthome5, #countryCovidCharthome2, #countryCovidChart3, #countryCovidChart4,#countryCovidChart1,#countryCovidChart2,#vacstatushome2{
-	margin-top: 7px;
-	margin-right: 2%;
-	width: 48%;
-	float: right;
-	text-align: center;
 	
-}
-
-#noshowvaccinehome{
-	margin-top: 7px;
-		width: 100%;
-	float: left;
-		text-align: center;
-}
-#CovidChart1, #CovidChart3 {
-	width: 48%;
-	margin-left : 2%;
-	float: left;
-	text-align: center;
-	
-}
-#CovidChart2, #CovidChart4 {
-	width: 48%;
-	margin-right : 2%;
-	float: left;
-	text-align: center;
-	
-}
-#labelsearch{
-	
-	margin-left : 2%;
-}
-
-.countryCovidChartDiv, #vacstatushome1div {
-  background-color: #333;
-}
-
-.countryCovidChartDiv, #vacstatushome1div {
-  color: #f2f2f2;
-  text-align: center;
-  padding: 7px 8px;
-  font-size: 13px;
-}
-
-.countryCovidChartDiv:hover, #vacstatushome1div:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-/* bottom 메뉴바 */
-
-.navbar {
-  overflow: hidden;
-  background-color: #333;  
-/*   position: fixed; */
-  bottom: 0;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.navbar a {
-  float: center;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 5px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-
-
-@media screen and (max-width: 800px) {
-  .navbar a:not(:first-child) {display: none;}
-  .navbar a.icon {float: right; display: block;}
-
-}
-
-@media screen and (max-width: 600px) {
-  .navbar.responsive .icon {
-    position: absolute;
-    right: 0;
-    bottom:0;
-  }
-  .navbar.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-
-}
-  
-
-/*  개인 코로나 정보  */
-div {
-}
+	/*  개인 코로나 정보  */
  body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
 
@@ -611,7 +287,7 @@ button:hover {
   background-color: #fefefe;
   margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 50%; /* Could be more or less, depending on screen size */
 }
 
 /* Style the horizontal ruler */
@@ -649,153 +325,4 @@ hr {
      width: 100%;
   }
 }
-/* 게시판 */
-.vacantrow{
-	background : white;
 }
-.toboardtd {
-	padding : 0;
-	background : white;
-}
-.toboardlist {
-	width : 25%;
-  float: left;
-  left : 0;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding : 7px;
-  text-decoration: none;
-  font-size: 15px;
-  font-weight : bold;
-  background: #04AA6D;
-}
-.toboardlist:hover {
-  background-color: #f2f2f2;
-  color: black;
-}
-
-.toboardlist.active {
-  background-color: #04AA6D;
-  color: white;
-  
-}
-.toboardlist1 {
-	width : 100%;
-  float: left;
-  left : 0;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding : 7px;
-  text-decoration: none;
-  font-size: 15px;
-  font-weight : bold;
-  background: #04AA6D;
-}
-.toboardlist1:hover {
-  background-color: #f2f2f2;
-  color: black;
-}
-
-.toboardlist1.active {
-  background-color: #04AA6D;
-  color: white;
-  
-}
-
-#boardlist {
-	width: 90%;
-	margin-left: 5%;
-	margin-right: 5%;
-}
-
-#boardlisttable   tr:nth-of-type(1)  {
-	font-weight: bold; 
-	background-color: #04AA6D; 
-	color: #f2f2f2;
-	}
-
-#boardlisttable {
-/* 	margin-right : 8%;
-	margin-left : 8%; */
-  border-collapse: collapse;
-  border-spacing: 0;
-	width: 90%;
-		margin-left: 5%;
-	margin-right: 5%;
-  background-color: rgb(220, 222, 222);
- /*  border: 1px solid blue; */
-}
-
-.boardlisttable   tr:nth-of-type(1)  {
-	font-weight: bold; 
-	background-color: #04AA6D; 
-	color: #f2f2f2;
-	}
-	#commenttitle   {
-	font-weight: bold; 
-	background-color: #04AA6D; 
-	color: #f2f2f2;
-	}
-	#commentlist  {
-	font-weight: bold; 
-	background-color: #04AA6D; 
-	color: #f2f2f2;
-	}
-
-.boardlisttable {
-/* 	margin-right : 8%;
-	margin-left : 8%; */
-  border-collapse: collapse;
-  border-spacing: 0;
-	width: 90%;
-		margin-left: 5%;
-	margin-right: 5%;
-  background-color: rgb(220, 222, 222);
- /*  border: 1px solid blue; */
-}
-.ctext                     { height:50px; width:90%; }
-#boardcontent {
-	height : 500px;
-}
-#boardcontent1 {
-	background : white;
-}
-/* 선별진료소 */
-	.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-	.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-	.map_wrap {position:relative;width:100%;height:500px;}
-	#menu_wrap {position:absolute;top:0;left:0px;bottom:0;width:350px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
-	.bg_white {background:#fff;}
-	#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
-	#menu_wrap .option{text-align: center;}
-	#menu_wrap .option p {margin:10px 0;}  
-	#menu_wrap .option button {margin-left:5px;}
-	#placesList li {list-style: none;}
-	#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-	#placesList .item span {display: block;margin-top:4px;}
-	#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-	#placesList .item .info{padding:10px 0 10px 55px;}
-	#placesList .info .gray {color:#8a8a8a;}
-	#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
-	#placesList .info .tel {color:#009900;}
-	#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
-	#placesList .item .marker_1 {background-position: 0 -10px;}
-	#placesList .item .marker_2 {background-position: 0 -56px;}
-	#placesList .item .marker_3 {background-position: 0 -102px}
-	#placesList .item .marker_4 {background-position: 0 -148px;}
-	#placesList .item .marker_5 {background-position: 0 -194px;}
-	#placesList .item .marker_6 {background-position: 0 -240px;}
-	#placesList .item .marker_7 {background-position: 0 -286px;}
-	#placesList .item .marker_8 {background-position: 0 -332px;}
-	#placesList .item .marker_9 {background-position: 0 -378px;}
-	#placesList .item .marker_10 {background-position: 0 -423px;}
-	#placesList .item .marker_11 {background-position: 0 -470px;}
-	#placesList .item .marker_12 {background-position: 0 -516px;}
-	#placesList .item .marker_13 {background-position: 0 -562px;}
-	#placesList .item .marker_14 {background-position: 0 -608px;}
-	#placesList .item .marker_15 {background-position: 0 -654px;}
-	#pagination {margin:10px auto;text-align: center;}
-	#pagination a {display:inline-block;margin-right:10px;}
-	#pagination .on {font-weight: bold; cursor: default;color:#777;}

@@ -12,7 +12,7 @@
 				  		  display: flex;
 				  justify-content: center;
 				  align-items: center;
-				  height: 100vh - 100px;}
+				  height: 100vh;}
 	.card.card-primary {width: 500px;
 						padding: 0px 0px !important;
 						margin: 0px 0px !important;
@@ -235,7 +235,8 @@
 							
 							var id = 'loc1span';
 							document.getElementById(id).innerHTML = html;
-							window.open('/view/jusoname1.jsp', 'loc1', 'height=260,width=500,top=100,left=100');
+							var html = '/view/jusoname1.jsp';
+							window.open(html, 'loc1', 'height=260,width=500,top=100,left=100');
 							
 							document.getElementById('loc1').value = roadAddr + ' ' + extraRoadAddr;
 							
@@ -405,6 +406,8 @@
 		search.onclick = function(){
 
 		} */
+		var frm = document.getElementById('frm');
+		frm.onsubmit = check;
 		
 		// 집 주소 추가
 		var home = document.getElementById('home');
@@ -485,7 +488,7 @@
 		</div>
 		<!-- /.card-header -->
 		<div class="card-body">
-			<form action="/mboard?cmd=MEMINFOUPDATE" method="POST" onsubmit="return check()">
+			<form action="/mboard?cmd=MEMINFOUPDATE" method="POST" id="frm">
 			<div class="form-group">
 				<label for="exampleInputBorder">ID<code id="usableId"><!-- 사용가능한 아이디 --></code></label>
 				<input type="text" class="form-control form-control-border"

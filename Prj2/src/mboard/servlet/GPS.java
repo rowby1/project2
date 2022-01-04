@@ -25,8 +25,7 @@ public class GPS extends HttpServlet {
 			
 			String lat = request.getParameter("lat");
 			String lon = request.getParameter("lon");
-			System.out.println("lat :  "+lat);
-			System.out.println("lon :  "+lon);
+			
 			session.setAttribute("lat", lat);
 			session.setAttribute("lon", lon);
 		
