@@ -6,7 +6,7 @@
 ## 실시간 채팅
 ![chat2](https://user-images.githubusercontent.com/59141956/148087868-4524d11a-1f45-47ee-89b3-488446ef7c8d.png)
 
-## 가까운 선별진료소
+## 예방접종센터
 ![center](https://user-images.githubusercontent.com/59141956/148088260-540861ac-a4d3-4026-8266-c6d8647ebbd0.png)
 
 ## 개인 코로나 정보 저장
