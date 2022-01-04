@@ -29,7 +29,7 @@
 * jQuery
 * Chart.js
 * Bootstrap5
-* HTML5 Geolocation API
+* HTML Geolocation API
 * kakao map API
 * 게시판 댓글처리
 * 게시판 조회수를 활용한 인기글 
