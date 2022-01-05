@@ -42,7 +42,7 @@ public class CountryCovidStatus extends HttpServlet {
 		// String  gubun = request.getParameter("gubun");
 		CountryCovidStatusDao ccsDao = new CountryCovidStatusDao();
 		Fnc fnc = new Fnc();
-		String period = request.getParameter("period");
+		int period = Integer.parseInt(request.getParameter("period"));
 		LocalDate today = LocalDate.now();
 		
 		String api = fnc.getDataPeriod(0).toString();
@@ -101,8 +101,8 @@ public class CountryCovidStatus extends HttpServlet {
 				}
 			
 			//DB에서 15일치 들고와서 뿌림
-			xml = ccsDao.getPeriodData(15).toString();
-			//json = vsDao.getPeriodData(period).toString();
+			//xml = ccsDao.getPeriodData(15).toString();
+			xml = ccsDao.getPeriodData(period).toString();
 		} else {
 			
 			Node itemNode = itemList.item(0);
@@ -152,8 +152,8 @@ public class CountryCovidStatus extends HttpServlet {
 				//  dataGap = 0 오늘꺼, dataGap = 1 오늘꺼, 어제꺼, dateGap = 2 오늘꺼, 어제꺼, 2일전꺼 .........
 				}
 			//DB에서 15일치 들고와서 뿌림
-			xml = ccsDao.getPeriodData(15).toString();
-			//json = vsDao.getPeriodData(period).toString();
+			//xml = ccsDao.getPeriodData(15).toString();
+			xml = ccsDao.getPeriodData(period).toString();
 			}
 		
 		response.setContentType("application/xml;charset=UTF-8");

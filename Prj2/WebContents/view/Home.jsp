@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>   
@@ -7,137 +6,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/css/prj2.css">
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" ></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-<script type="text/javascript" src="//
-dapi.kakao.com/v2/maps/sdk.js?appkey=4bce6cd9ede82da81c37797d49ceb223&libraries=services"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4bce6cd9ede82da81c37797d49ceb223&libraries=services"></script>
 <style>
-
+	#mytitle {text-align: center}
+	.countryCovidChartDiv{text-align: center;
+						background-color: #388458;
+						color: #ffffff}	
+	.red {color: red;}
+	.blue{color: blue;}
+	body{ overflow-x: hidden;}
 </style>
 <script>
+window.onload = function(){
 //GPS-------------------------------------------------------------------------------------------------------
-function gps(){
-if ('${locstatus}' != 0){
-	
-	console.log('if');
-	console.log('${locstatus}');
-	var address = '${selectedloc}';
-	var index = address.lastIndexOf("(");
-	if (index > -1)
-		address = address.substring(0, index - 1);
-	console.log(address);
-	var juso = address.split(" ");
-	var sido = juso[0];
-	var sigungu = juso[1];
-	
-	var coords = new Array();
-	//var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-	var mapContainer = document.createElement('div');
-    mapOption = {
-        center: new kakao.maps.LatLng(37,127), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };  
-	// 지도를 생성합니다    
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
-	// 주소-좌표 변환 객체를 생성합니다
-	var geocoder = new kakao.maps.services.Geocoder();
-	// 주소로 좌표를 검색합니다
-	console.log(address);
-	geocoder.addressSearch(address, function(result, status) {
-
-	    // 정상적으로 검색이 완료됐으면 
-	     if (status === kakao.maps.services.Status.OK) {
-	         coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	         console.log(coords);
-	         console.log(coords.La);
-	         console.log(coords.Ma);
-	         $.ajax({
-	         	url : '/gps',
-	         	data : { "sido" : sido,
-	         					"sigungu" : sigungu,
-				         		"lat" : coords.Ma,
-				         		"lon" : coords.La},
-	         	type : 'POST',
-	         	success : function(){
-	         		
-	         	},
-	         	error : function(xhr){
-	         		alert(xhr.status + ':' + xhr.statusText);
-	         	}
-	         })
-	    } 
-	});
-	
-} else {
-		navigator.geolocation.getCurrentPosition(position => {
-		console.log('else');
-		//var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-		var mapContainer = document.createElement('div');
-	    mapOption = {
-	        center: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude), // 지도의 중심좌표
-	        level: 2 // 지도의 확대 레벨
-	    };  
-		// 지도를 생성합니다    
-		var map = new kakao.maps.Map(mapContainer, mapOption); 
-		// 주소-좌표 변환 객체를 생성합니다
-		var geocoder = new kakao.maps.services.Geocoder();
-
-			// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
-			searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-
-			function searchAddrFromCoords(coords, callback) {
-			    // 좌표로 행정동 주소 정보를 요청합니다
-			    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
-			}
+	(function gps(){
+		if ('${sessionScope.locstatus}' != 0){
 			
-			// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
-			function displayCenterInfo(result, status) {
-			    if (status === kakao.maps.services.Status.OK) {
-			        for(var i = 0; i < result.length; i++) {
-			            // 행정동의 region_type 값은 'H' 이므로
-			            console.dir(result);
-			            if (result[i].region_type === 'H') {
-			                var sido = result[i].region_1depth_name;
-			                var sigungu = result[i].region_2depth_name;
-			                $.ajax({
-			                	url : '/gps',
-			                	data : {"sido" : sido,
-			                			"sigungu" : sigungu,
-			                			"lat" : position.coords.latitude,
-			                			"lon" : position.coords.longitude},
-			                	type : 'POST',
-			                	success : function(){
-			                		
-			                	},
-			                	error : function(xhr){
-			                		alert(xhr.status + ':' + xhr.statusText);
-			                	}
-			                })
-			            }
-			        }
-			    }    
+			console.log('if');
+			console.log('${sessionScope.locstatus}');
+			var address = '${sessionScope.selectedloc}';
+			var index = address.lastIndexOf("(");
+			if (index > -1)
+				address = address.substring(0, index - 1);
+			console.log(address);
+			var juso = address.split(" ");
+			var sido = juso[0];
+			var sigungu = juso[1];
+			
+			var coords = new Array();
+			//var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+			var mapContainer = document.createElement('div');
+		    mapOption = {
+		        center: new kakao.maps.LatLng(37,127), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+			// 지도를 생성합니다    
+			var map = new kakao.maps.Map(mapContainer, mapOption); 
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+			// 주소로 좌표를 검색합니다
+			console.log(address);
+			geocoder.addressSearch(address, function(result, status) {
+
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+			         coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			         console.log(coords);
+			         console.log(coords.La);
+			         console.log(coords.Ma);
+			         $.ajax({
+			         	url : '/gps',
+			         	data : { "sido" : sido,
+			         					"sigungu" : sigungu,
+						         		"lat" : coords.Ma,
+						         		"lon" : coords.La},
+			         	type : 'POST',
+			         	success : function(){
+			         		init( sido, sigungu, coords.Ma, coords.La );
+			         	},
+			         	error : function(xhr){
+			         		alert(xhr.status + ':' + xhr.statusText);
+			         	}
+			         })
+			    } 
+			});
+			
+		} else {
+				navigator.geolocation.getCurrentPosition(position => {
+				console.log('else');
+				//var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+				var mapContainer = document.createElement('div');
+			    mapOption = {
+			        center: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude), // 지도의 중심좌표
+			        level: 2 // 지도의 확대 레벨
+			    };  
+				// 지도를 생성합니다    
+				var map = new kakao.maps.Map(mapContainer, mapOption); 
+				// 주소-좌표 변환 객체를 생성합니다
+				var geocoder = new kakao.maps.services.Geocoder();
+
+					// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
+					searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+
+					function searchAddrFromCoords(coords, callback) {
+					    // 좌표로 행정동 주소 정보를 요청합니다
+					    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+					}
+					// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+					function displayCenterInfo(result, status) {
+					    if (status === kakao.maps.services.Status.OK) {
+					        for(var i = 0; i < result.length; i++) {
+					            // 행정동의 region_type 값은 'H' 이므로
+					            console.dir(result);
+					            if (result[i].region_type === 'H') {
+					                var sido = result[i].region_1depth_name;
+					                var sigungu = result[i].region_2depth_name;
+					                $.ajax({
+					                	url : '/gps',
+					                	data : {"sido" : sido,
+					                			"sigungu" : sigungu,
+					                			"lat" : position.coords.latitude,
+					                			"lon" : position.coords.longitude},
+					                	type : 'POST',
+					                	success : function(){
+					                		init( sido, sigungu, position.coords.latitude, position.coords.longitude );
+					                	},
+					                	error : function(xhr){
+					                		alert(xhr.status + ':' + xhr.statusText);
+					                	}
+					                })
+					            }
+					        }
+					    }    
+					}
+				},
+				error => {
+				alert('정보 제공을 위해 GPS 기능을 허용해주세요!');
+				console.log(error);
+				})
+					console.log('5');
 			}
-		},
-		error => {
-		alert('정보 제공을 위해 GPS 기능을 허용해주세요!');
-		console.log(error);
-		})
-	}
+		})();
+		//GPS---------------------------------------------------------------------------------------------------------
+		 
 }
 
-gps();
-//GPS---------------------------------------------------------------------------------------------------------
- 
-/*동영상 뉴스  */
-	$(function(){
+function init( sido, sigungu, lat, lon ) {
+	/*동영상 뉴스  */
+	(function(){
 			var div = $('#videonewscontent');
 		$.ajax({
 			url : '/ytnews1',
@@ -146,15 +149,16 @@ gps();
 				var html = '';
 				$.each(json, function(index, data){
 					
-					console.log(data);
+					if (index < 4){
 					html += '<div class="col">'
 						 + '<div class="card h-100 shadow rounded">'
 						 + '<a id="link" href="' + 'https://www.youtube.com/watch?v=' + data.id.videoId +'">'
-				      	 + '<img src="' + data.snippet.thumbnails.high.url + '" class="card-img-top" height="300	" width="300" alt="...">'
+				      	 + '<img src="' + data.snippet.thumbnails.high.url + '" class="card-img-top" height="300" width="300" alt="...">'
 				      	 + '<div class="card-body">'
 				      	 + '<h5 class="card-title">' + data.snippet.title + '</h5></a>'
 				      	 + '<span class="card-text">' + data.snippet.description + '</span>'
 				      	 + '</div></div></div>';
+					}
 				        
 				})
 				$("#videonewscontent").append(html);
@@ -163,10 +167,10 @@ gps();
 				alert(xhr.status + ' ' + xhr.statusText);
 			}
 		})
-	})
+	})();
 /*동영상 뉴스  */
 /*뉴스시작  */
-$(function(){
+(function(){
 			var div = $('.newscontent');
 			var html = '';
 		$.ajax({
@@ -175,16 +179,16 @@ $(function(){
 			success : function(json){
 				$.each(json, function(index, data){
 					
-					
+					if (index < 4){
 					html += '<div class="col">'
 						 + '<div class="card h-100 shadow rounded">'
 						 + '<a id="link" href="' + data.link +'">'
-				      	 + '<img src="' + data.img + '" class="card-img-top" height="300	" width="300" alt="...">'
+				      	 + '<img src="' + data.img + '" class="card-img-top" height="300" width="300" alt="...">'
 				      	 + '<div class="card-body">'
 				      	 + '<h5 class="card-title">' + data.title + '</h5></a>'
 				      	 + '<span class="card-text">' + data.description + '</span>'
 				      	 + '</div></div></div>';
-				        
+					}
 				/* 	data.title
 					data.link
 					data.description
@@ -214,168 +218,11 @@ $(function(){
 				alert(xhr.status + ' ' + xhr.statusText);
 			}
 		})
-	})
+	})();
 /*뉴스끝  */
 
-		// 검색 결과 목록과 마커를 표출하는 함수입니다
-		function displayPlaces(places) {
 
-		    var listEl = document.getElementById('placesList'), 
-		    menuEl = document.getElementById('menu_wrap'),
-		    fragment = document.createDocumentFragment(), 
-		    bounds = new kakao.maps.LatLngBounds(), 
-		    listStr = '';
-		    
-		    // 검색 결과 목록에 추가된 항목들을 제거합니다
-		    removeAllChildNods(listEl);
-
-		    // 지도에 표시되고 있는 마커를 제거합니다
-		    removeMarker();
-		    
-		    for ( var i=0; i<places.length; i++ ) {
-
-		        // 마커를 생성하고 지도에 표시합니다
-		        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-		            marker = addMarker(placePosition, i), 
-		            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-
-		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-		        // LatLngBounds 객체에 좌표를 추가합니다
-		        bounds.extend(placePosition);
-
-		        // 마커와 검색결과 항목에 mouseover 했을때
-		        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-		        // mouseout 했을 때는 인포윈도우를 닫습니다
-		        (function(marker, title) {
-		            kakao.maps.event.addListener(marker, 'mouseover', function() {
-		                displayInfowindow(marker, title);
-		            });
-
-		            kakao.maps.event.addListener(marker, 'mouseout', function() {
-		                infowindow.close();
-		            });
-
-		            itemEl.onmouseover =  function () {
-		                displayInfowindow(marker, title);
-		            };
-
-		            itemEl.onmouseout =  function () {
-		                infowindow.close();
-		            };
-		        })(marker, places[i].place_name);
-
-		        fragment.appendChild(itemEl);
-		    }
-
-		    // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
-		    listEl.appendChild(fragment);
-		    menuEl.scrollTop = 0;
-
-		    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-		    map.setBounds(bounds);
-		}
-
-		// 검색결과 항목을 Element로 반환하는 함수입니다
-		function getListItem(index, places) {
-
-		    var el = document.createElement('li'),
-		    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-		                '<div class="info">' +
-		                '   <h5>' + places.place_name + '</h5>';
-
-		    if (places.road_address_name) {
-		        itemStr += '    <span>' + places.road_address_name + '</span>' +
-		                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
-		    } else {
-		        itemStr += '    <span>' +  places.address_name  + '</span>'; 
-		    }
-		                 
-		      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
-		                '</div>';           
-
-		    el.innerHTML = itemStr;
-		    el.className = 'item';
-
-		    return el;
-		}
-
-		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-		function addMarker(position, idx, title) {
-		    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-		        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
-		        imgOptions =  {
-		            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-		            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-		            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-		        },
-		        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-		            marker = new kakao.maps.Marker({
-		            position: position, // 마커의 위치
-		            image: markerImage 
-		        });
-
-		    marker.setMap(map); // 지도 위에 마커를 표출합니다
-		    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-
-		    return marker;
-		}
-
-		// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-		function removeMarker() {
-		    for ( var i = 0; i < markers.length; i++ ) {
-		        markers[i].setMap(null);
-		    }   
-		    markers = [];
-		}
-
-		// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-		function displayPagination(pagination) {
-		    var paginationEl = document.getElementById('pagination'),
-		        fragment = document.createDocumentFragment(),
-		        i; 
-
-		    // 기존에 추가된 페이지번호를 삭제합니다
-		    while (paginationEl.hasChildNodes()) {
-		        paginationEl.removeChild (paginationEl.lastChild);
-		    }
-
-		    for (i=1; i<=pagination.last; i++) {
-		        var el = document.createElement('a');
-		        el.href = "#";
-		        el.innerHTML = i;
-
-		        if (i===pagination.current) {
-		            el.className = 'on';
-		        } else {
-		            el.onclick = (function(i) {
-		                return function() {
-		                    pagination.gotoPage(i);
-		                }
-		            })(i);
-		        }
-
-		        fragment.appendChild(el);
-		    }
-		    paginationEl.appendChild(fragment);
-		}
-
-		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-		// 인포윈도우에 장소명을 표시합니다
-		function displayInfowindow(marker, title) {
-		    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-
-		    infowindow.setContent(content);
-		    infowindow.open(map, marker);
-		}
-
-		 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
-		function removeAllChildNods(el) {   
-		    while (el.hasChildNodes()) {
-		        el.removeChild (el.lastChild);
-		    }
-		
-	}
-/*topnav responsive active  */
+/*topnav responsive active*/
 function myFunction() {
 	  var x = document.getElementById("myTopnav");
 	  if (x.className === "topnav") {
@@ -384,7 +231,6 @@ function myFunction() {
 	    x.className = "topnav";
 	  }
 	}
-
 
 /* 코로나 현재상황  */
  function  header() {
@@ -403,46 +249,7 @@ function myFunction() {
 	}
 
 
-var sido      = '${ sido }';
-console.log("sido:" + sido);
-
-// 시도 변환
-
-if(sido == '서울특별시')
-    sido = '서울';
- if(sido == '부산광역시')
-    sido = '부산';
- if(sido == '대구광역시')
-    sido = '대구';
- if(sido == '인천광역시')
-    sido = '인천';
- if(sido == '대전광역시')
-    sido = '대전';
- if(sido == '세종특별자치시')
-    sido = '세종';
- if(sido == '울산광역시')
-    sido = '울산';
- if(sido == '경기도')
-    sido = '경기';
- if(sido == '강원도')
-    sido = '강원';
- if(sido == '충청북도')
-    sido = '충북';
- if(sido == '충청남도')
-    sido = '충남';
- if(sido == '전라북도')
-    sido = '전북';
- if(sido == '전라남도')
-    sido = '전남';
- if(sido == '경상북도')
-    sido = '경북';
- if(sido == '경상남도')
-    sido = '경남';
- if(sido == '제주특별자치도')
-    sido = '제주';
- 
- 
-	$(function(){
+	(function(){
 		nosearchchartrun();
 		   function nosearchchartrun(){
 			     $("#search").css("display", "none");
@@ -454,10 +261,9 @@ if(sido == '서울특별시')
 			      $.ajax( {
 			         //url     : 'http://localhost:9090/CovidStatus/covidstatus',
 			         url     : 'http://localhost:9090/covidstatuschart',
-			         // data    : { gubun : $('#gubun').val() },
+			         data    : { period : 5 },
 			         type    : 'GET',
 			         success : function( xml ) {
-			            console.log(xml);
 			            var xArr = new Array();
 			            var yArrBusan = new Array(); 
 			            var yArrSeoul = new Array(); 
@@ -492,23 +298,56 @@ if(sido == '서울특별시')
 			            var yArrinc4 = new Array(); 
 			            var yArrinc5 = new Array(); 
 			            
-			            
+			            console.log('test');
+			            var huckjintitle = document.getElementById('huckjintitle');
+			            huckjintitle.prepend(sido + ' ');
 			            
 			            $("#chart1searchbutton").on({
 			               "click" : function(){
 			                  var chart1search = document.getElementById('chart1search').value;
-			                  console.log(chart1search);
 			               }
 			               
 			            })
-			            
+			            // 시도 변환
+						if(sido == '서울특별시')
+						    sido = '서울';
+						if(sido == '부산광역시')
+						   sido = '부산';
+						if(sido == '대구광역시')
+						   sido = '대구';
+						if(sido == '인천광역시')
+						   sido = '인천';
+						if(sido == '대전광역시')
+						   sido = '대전';
+						if(sido == '세종특별자치시')
+						   sido = '세종';
+						if(sido == '울산광역시')
+						   sido = '울산';
+						if(sido == '경기도')
+						   sido = '경기';
+						if(sido == '강원도')
+						   sido = '강원';
+						if(sido == '충청북도')
+						   sido = '충북';
+						if(sido == '충청남도')
+						   sido = '충남';
+						if(sido == '전라북도')
+						   sido = '전북';
+						if(sido == '전라남도')
+						   sido = '전남';
+						if(sido == '경상북도')
+						   sido = '경북';
+						if(sido == '경상남도')
+						   sido = '경남';
+						if(sido == '제주특별자치도')
+						   sido = '제주';
 
 			                
 			            var html = '';
-			            
+
 			            $(xml).find('item').each(function( index ) {
 			            	
-			            	// 확진자수 높은 4 지역과 주소에 기록된 지역
+			            	// 확진자수 높은 4 지 역과 주소에 기록된 지역
 			            	
 			               if($('#courseID').val()==null || $('#courseID').val()==""){
 			                  
@@ -535,7 +374,7 @@ if(sido == '서울특별시')
 			                  html += '</tr>';
 			               
 			                  
-			                  // set1.add(0+(19*index)); // 합계
+/* 			                  // set1.add(0+(19*index)); // 합계
 			                  // set1.add(1+(19*index)); // 서울
 			                  
 			                  set1.add(1+(19*index));  // 중간에 검역이 끼어 있어서 19로 해야함
@@ -546,18 +385,18 @@ if(sido == '서울특별시')
 			                  	
 			                  set4.add(4+(19*index)); 
 			                  
-			                  // 이름은 처음 값만 받으면 됨
+			                  // 이름은 처음 값만 받으면 됨 */
 			                  
-			                  if(set1.has(index)==true && index == 1){
+			                  if(index == 1){
 			                	  name1 = gubun;
 			                  }
 			                  if(gubun==name1) {
 			                	  yArr1.push(defCnt);
 			                	  yArrinc1.push(incDec);
-			                	  xArr.push(stdDay);	  
+			                	  xArr.push(stdDay.substring(5));	  
 			                  }
 			                  
-			                  if(set2.has(index)==true && index == 2){
+			                  if(index == 2){
 			                	  name2 = gubun;
 			                  }
 			                  if(gubun==name2) {
@@ -565,7 +404,7 @@ if(sido == '서울특별시')
 			                	  yArrinc2.push(incDec);
 			                  }
 			                  
-			                  if(set3.has(index)==true && index == 3){
+			                  if(index == 3){
 			                	  name3 = gubun;
 			                  }
 			                  if(gubun==name3) {
@@ -573,14 +412,13 @@ if(sido == '서울특별시')
 			                	  yArrinc3.push(incDec);
 			                  }
 			                  
-			                  if(set4.has(index)==true && index == 4){
+			                  if(index == 4){
 			                	  name4 = gubun;
 			                  }
 			                  if(gubun==name4) {
 			                	  yArr4.push(defCnt);	
 			                	  yArrinc4.push(incDec);
 			                  }
-			                	  
 			                  if(gubun==sido){   
 			              	   	yArr5.push(defCnt);
 			              	    yArrinc5.push(incDec);
@@ -610,11 +448,25 @@ if(sido == '서울특별시')
 			               yArrInchon.push(defCnt);
 			               
 			               } */          
-			               
 			               }
 			               
 			               /* countrysaveFunction($(this).find('nationNm').html(), $(this).find('natDefCnt').html()); */
 			            })
+			            
+			            var huckjin = document.getElementById('huckjin');
+			            var delta = '';
+			            var deltanum = yArr5[4] - yArr5[3];
+			            if (isNaN(deltanum)) 
+			            	deltanum = 0;
+			            if (deltanum >= 0){
+			            	delta += '<span class="red" style="font-size: 24px;">&nbsp;&nbsp; vs어제 ' + deltanum + '↑</span>';
+			            } else{
+			            	delta += '<span class="blue" style="font-size: 24px;>&nbsp;&nbsp; vs어제 ' + deltanum + '↓</span>';
+			            }
+			            huckjin.innerHTML = yArr5[4] + '명' + delta;
+			            if (typeof yArr5[4] == 'undefined') 
+			            	huckjin.innerHTML = 0 + '명' + delta;
+			            huckjin.style.fontSize = '40px';
 			            
 			             // console.log(set2);
 			            
@@ -634,7 +486,7 @@ if(sido == '서울특별시')
 			            if(sido==name1||sido==name2||sido==name3||sido==name4){
 			            	hd = true;
 			            }
-			            
+			            console.log('xArr ' + xArr);
 			                  //차트1------------------------------------------------------------------
 			                  const ctx1 = document.getElementById('myChart1')
 			                        .getContext('2d');
@@ -647,31 +499,41 @@ if(sido == '서울특별시')
 			                           label : sido, // 데이터 범례
 			                           data : yArr5, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 			                           borderColor : "black",
+			                           backgroundColor : "black",
 			                           fill : false,
+							            borderWidth: 3,
 			                           hidden: hd
 			                        },
 			                           {
 			                           label : name1, // 데이터 범례
 			                           data : yArr1, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 			                           borderColor : "red",
+			                           backgroundColor : "red",
+							            borderWidth: 3,
 			                           fill : false
 			                        },
 			                           {
 			                           label : name2, 
 			                           data : yArr2, 
 			                           borderColor : "green",
+			                           backgroundColor : "green",
+							            borderWidth: 3,
 			                           fill : false
 			                        },
 			                           {
 			                           label : name3, 
 			                           data : yArr3, 
 			                           borderColor : "blue",
+			                           backgroundColor : "blue",
+							            borderWidth: 3,
 			                           fill : false
 			                        },
 			                           {
 			                           label : name4, 
 			                           data : yArr4, 
 			                           borderColor : "yellow",
+			                           backgroundColor : "yellow",
+							            borderWidth: 3,
 			                           fill : false
 			                        }
 			                        ]
@@ -706,7 +568,7 @@ if(sido == '서울특별시')
 			                     }
 			                  });// chart1
 			                  
-			                  
+/* 			                  
 			            //--chart2---------------------------------------
 			                  const ctx2 = document.getElementById('myChart2')
 			                  .getContext('2d');
@@ -719,6 +581,7 @@ if(sido == '서울특별시')
 			                     label : sido, // 데이터 범례
 			                     data : yArrinc5, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 			                     borderColor : "black",
+			                     backgroundColor : "black",
 			                     fill : false,
 			                     hidden: hd
 			                  },
@@ -726,24 +589,28 @@ if(sido == '서울특별시')
 			                     label : name1, // 데이터 범례
 			                     data : yArrinc1, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 			                     borderColor : "red",
+			                     backgroundColor : "red",
 			                     fill : false
 			                  },
 			                     {
 			                     label : name2, 
 			                     data : yArrinc2, 
 			                     borderColor : "green",
+			                     backgroundColor : "green",
 			                     fill : false
 			                  },
 			                     {
 			                     label : name3, 
 			                     data : yArrinc3, 
 			                     borderColor : "blue",
+			                     backgroundColor : "blue",
 			                     fill : false
 			                  },
 			                     {
 			                     label : name4, 
 			                     data : yArrinc4, 
 			                     borderColor : "yellow",
+			                     backgroundColor : "yellow",
 			                     fill : false
 			                  }
 			                  ]
@@ -770,14 +637,15 @@ if(sido == '서울특별시')
 			                         return true;
 			                       }
 			                   }, */
-			              	 title : {
-			              		/*  display: true,
+			                   /* title : {
+			              		 display: true,
 			              	      text: "확진자 현황" */
-			              	 }
+			              //	 }
 
-			               }
-			            }); // chart2
-			                  
+			             //  }
+			           // }); // chart2
+			            
+			            
 			               }, // success
 			               error : function(xhr) {
 			                  alert(xhr.status + ':' + xhr.statusText);
@@ -785,7 +653,7 @@ if(sido == '서울특별시')
 			            })
 			            
 			         } // nonserchrun
-	})
+	})();
  
 
  
@@ -802,7 +670,7 @@ if(sido == '서울특별시')
 	return dateString
 }
 
-	$(function(){
+	(function(){
 		nosearchchartrun();
 		function nosearchchartrun(){
 			var yesterday = getyesterday();
@@ -810,6 +678,7 @@ if(sido == '서울특별시')
 		   
 		   $.ajax( {
 				url     : 'http://localhost:9090/countrycovidstatus',
+				data	: {period : 10},
 				type    : 'GET',
 				success : function( xml ) {
 					var labelsArr = new Array();
@@ -884,7 +753,7 @@ if(sido == '서울특별시')
 						
 						if(nationNM=='한국'){	
 						dataArr.push(natDeathCnt);
-						xArr.push(stdDay);
+						xArr.push(stdDay.substring(5));
 						yArrnatDeathCntkor.push(natDeathCnt);
 						yArrnatDefCntkor.push(natDefCnt);
 						
@@ -1004,12 +873,12 @@ if(sido == '서울특별시')
 								GapnatDefGer = yArrnatDefCntGer[i] - yArrnatDefCntGer[i - 1]
 								GapnatDefInd = yArrnatDefCntInd[i] - yArrnatDefCntInd[i - 1]
 									
-								yArrGapnatDefCntkor.push(GapnatDefKor)
-								yArrGapnatDefCntjap.push(GapnatDefjap)
-								yArrGapnatDefCntchi.push(GapnatDefchi)
-								yArrGapnatDefCntusa.push(GapnatDefusa)
-								yArrGapnatDefCntGer.push(GapnatDefGer)
-								yArrGapnatDefCntInd.push(GapnatDefInd)
+								yArrGapnatDefCntkor.push(GapnatDefKor);
+								yArrGapnatDefCntjap.push(GapnatDefjap);
+								yArrGapnatDefCntchi.push(GapnatDefchi);
+								yArrGapnatDefCntusa.push(GapnatDefusa);
+								yArrGapnatDefCntGer.push(GapnatDefGer);
+								yArrGapnatDefCntInd.push(GapnatDefInd);
 									
 								}
 							}
@@ -1038,36 +907,48 @@ if(sido == '서울특별시')
 										label : '한국 확진자 현황', // 데이터 범례
 										data : yArrGapnatDefCntkor, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#b91d47",
+										backgroundColor : "#b91d47",
+							            borderWidth: 3,
 										fill : false
 									},
 									{
 										label : '일본 확진자 현황', // 데이터 범례
 										data : yArrGapnatDefCntjap, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#00aba9",
+										backgroundColor : "#00aba9",
+							            borderWidth: 3,
 										fill : false
 									},
 									{
 										label : '중국 확진자 현황', // 데이터 범례
 										data : yArrGapnatDefCntchi, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#2b5797",
+										backgroundColor : "#2b5797",
+							            borderWidth: 3,
 										fill : false
 									},	
 									{
 										label : '미국 확진자 현황', // 데이터 범례
 										data : yArrGapnatDefCntusa, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#e8c3b9",
+										backgroundColor : "#e8c3b9",
+							            borderWidth: 3,
 										fill : false
 									},
 									{
 										label : '독일 확진자 현황', // 데이터 범례
 										data : yArrGapnatDefCntGer, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#1e7145",
+										backgroundColor : "#1e7145",
+							            borderWidth: 3,
 										fill : false
 									},
 									{
 										label : '인도 확진자 현황', // 데이터 범례
 										data : yArrGapnatDefCntInd, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#8A2BE2",
+										backgroundColor : "#8A2BE2",
+							            borderWidth: 3,
 										fill : false
 									}
 									]
@@ -1075,7 +956,7 @@ if(sido == '서울특별시')
 								options : {
 									scales : {
 										y : {
-											beginAtZero : true
+											beginAtZero : false
 										}
 									}
 								}
@@ -1083,7 +964,7 @@ if(sido == '서울특별시')
 							//차트------------------------------------------------------------------
 						//	console.log('labelsArr[1]:' + labelsArr[1]);		
 						//	console.log('dataArr[1]:' + dataArr[1]);
-							const ctx4 = document.getElementById('myChart4')
+/* 							const ctx4 = document.getElementById('myChart4')
 									.getContext('2d');
 							const myChart4 = new Chart(ctx4, {
 								type : 'line',
@@ -1094,36 +975,42 @@ if(sido == '서울특별시')
 										label : '한국 사망자 현황', // 데이터 범례
 										data : yArrGapnatDeathCntkor, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#b91d47",
+										backgroundColor : "#b91d47",
 										fill : false
 									},
 									{
 										label : '일본 사망자 현황', // 데이터 범례
 										data : yArrGapnatDeathCntjap, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#00aba9",
+										backgroundColor : "#00aba9",
 										fill : false
 									},
 									{
 										label : '중국 사망자 현황', // 데이터 범례
 										data : yArrGapnatDeathCntchi, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#2b5797",
+										backgroundColor : "#2b5797",
 										fill : false
 									},	
 									{
 										label : '미국 사망자 현황', // 데이터 범례
 										data : yArrGapnatDeathCntusa, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#e8c3b9",
+										backgroundColor : "#e8c3b9",
 										fill : false
 									},
 									{
 										label : '독일 사망자 현황', // 데이터 범례
 										data : yArrGapnatDeathCntGer, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#1e7145",
+										backgroundColor : "#1e7145",
 										fill : false
 									},
 									{
 										label : '인도 사망자 현황', // 데이터 범례
 										data : yArrGapnatDeathCntInd, //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 										borderColor : "#8A2BE2",
+										backgroundColor : "#8A2BE2",
 										fill : false
 									}
 									]
@@ -1131,12 +1018,12 @@ if(sido == '서울특별시')
 								options : {
 									scales : {
 										y : {
-											beginAtZero : true
+											beginAtZero : false
 										}
 									}
 								}
 							});
-						
+						 */
 						},
 						error : function(xhr) {
 							alert(xhr.status + ':' + xhr.statusText);
@@ -1145,104 +1032,21 @@ if(sido == '서울특별시')
 					
 				}
 		
-	})
-
-/* 코로나 현재상황  */
- $( function() {
-	/* $('#gubun').on('change', function() {
-		$('#btnGetData').click();		
-	});  */   
-		$.ajax( {
-			//url     : 'http://localhost:9090/CovidStatus/covidstatus',
-			url     : 'http://localhost:9090/covidstatus',
-			// data    : { gubun : $('#gubun').val() },
-			type    : 'GET',
-			success : function( xml ) {
-				console.log(xml);
-
-					var html = '<ul>';
-				$(xml).find('item').each(function( index ) {
-					var gubun         = $(this).find('gubun').html();
-					var defCnt        = $(this).find('defCnt').html();
-					var deathCnt      = $(this).find('deathCnt').html();
-					var incDec        = $(this).find('incDec').html();
-					var localOccCnt   = $(this).find('localOccCnt').html();
-					var isolIngCnt    = $(this).find('isolIngCnt').html();
-					var isolClearCnt  = $(this).find('isolClearCnt').html();
-					var qurRate       = $(this).find('qurRate').html();
-					var stdDay        = $(this).find('stdDay').html();
-
-					
-					// html += '<li>시도명:' + $('#gubun').val() + '</li>' ;
-					html += '<li>시도명:'           + gubun + '</li>' ;
-					html += '<li>확진자 수:'        + defCnt + '</li>' ;
-					html += '<li>사망자 수:'        + deathCnt + '</li>' ;
-					html += '<li>전일대비 증감 수:' + incDec + '</li>' ;
-					html += '<li>지역발생 수:'      + localOccCnt + '</li>' ;
-					html += '<li>격리중 환자수:'    + isolIngCnt + '</li>' ;
-					html += '<li>격리 해제 수:'     + isolClearCnt + '</li>' ;
-					html += '<li>10만명당 발생률:'  + qurRate + '%</li>' ;
-					html += '<li>기준일시:'         + stdDay + '</li><br>' ;
-					
-				})
-					html  += '</ul>';
-					$('#div1').html(html);
-				    console.log(xml);
-					console.log(html);
-				
-			},
-			error : function(xhr) {
-				alert(xhr.status + ':' + xhr.statusText);
-			}
-		});
-});
+	})();
  /* 잔여백신*/
-	window.onload = function(){
-	 	setTimeout(function() {
+/*	 	
+ 		setTimeout(function() {
 			  ifm()
 			}, 2000);
-		
-		function ifm(){
+			*/
+		(function ifm(){
 		var url = document.getElementById('ifm');
-		url.setAttribute("src", "https://m.place.naver.com/rest/vaccine?x=${lon}&y=${lat}");
-		console.log('https://m.place.naver.com/rest/vaccine?x=${lon}&y=${lat}');
-		}
+		console.log('lon' + lon);
+		console.log('lat' + lat);
+		url.setAttribute('src', 'https://m.place.naver.com/rest/vaccine?x=' + lon + '&y=' + lat );
+		})();
 		/*예방접종 */
 		 
-		var sido = '${ sido }';
-		if('${ sido }' == '서울')
-			sido = '서울특별시';
-		if('${ sido }' == '부산')
-			sido = '부산광역시';
-		if('${ sido }' == '대구')
-			sido = '대구광역시';
-		if('${ sido }' == '인천')
-			sido = '인천광역시';
-		if('${ sido }' == '대전')
-			sido = '대전광역시';
-		if('${ sido }' == '세종')
-			sido = '세종특별자치시';
-		if('${ sido }' == '울산')
-			sido = '울산광역시';
-		if('${ sido }' == '경기')
-			sido = '경기도';
-		if('${ sido }' == '강원')
-			sido = '강원도';
-		if('${ sido }' == '충북')
-			sido = '충청북도';
-		if('${ sido }' == '충남')
-			sido = '충청남도';
-		if('${ sido }' == '전북')
-			sido = '전라북도';
-		if('${ sido }' == '전남')
-			sido = '전라남도';
-		if('${ sido }' == '경북')
-			sido = '경상북도';
-		if('${ sido }' == '경남')
-			sido = '경상남도';
-		if('${ sido }' == '제주')
-			sido = '제주특별자치도';
- 		
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && xhr.status == 200) {
@@ -1275,7 +1079,40 @@ if(sido == '서울특별시')
 					var dataArr_sido1st = new Array();
 					var dataArr_sido2nd = new Array();
 					var dataArr_sido3rd = new Array();
-
+					
+					if(sido == '서울')
+						sido = '서울특별시';
+					if(sido == '부산')
+						sido = '부산광역시';
+					if(sido == '대구')
+						sido = '대구광역시';
+					if(sido == '인천')
+						sido = '인천광역시';
+					if(sido == '대전')
+						sido = '대전광역시';
+					if(sido == '세종')
+						sido = '세종특별자치시';
+					if(sido == '울산')
+						sido = '울산광역시';
+					if(sido == '경기')
+						sido = '경기도';
+					if(sido == '강원')
+						sido = '강원도';
+					if(sido == '충북')
+						sido = '충청북도';
+					if(sido == '충남')
+						sido = '충청남도';
+					if(sido == '전북')
+						sido = '전라북도';
+					if(sido == '전남')
+						sido = '전라남도';
+					if(sido == '경북')
+						sido = '경상북도';
+					if(sido == '경남')
+						sido = '경상남도';
+					if(sido == '제주')
+						sido = '제주특별자치도';
+					
 					data.forEach( function( ele, index ) {
 						
 						var vaccine1_ratio = (ele.totalFirstCnt / ele.population * 100).toFixed(1);
@@ -1324,6 +1161,7 @@ if(sido == '서울특별시')
 					labelsArr_baseDate.reverse();
 					console.log("dataArr_sido1st:" + dataArr_sido1st);
 					console.log("dataArr_sido2nd:" + dataArr_sido2nd);
+/*
 					const ctx7 = document.getElementById('myChart7').getContext('2d');
 					const bColor = [ 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)' ];
 					const myChart7 = new Chart(ctx7, {
@@ -1384,7 +1222,27 @@ if(sido == '서울특별시')
 				            }
 					    }
 					});
+*/ 				
+					var jupjongtitle = document.getElementById('jupjongtitle');
+					jupjongtitle.prepend(sido + ' ');
 					
+					var jupjong = document.getElementById('jupjong');
+					var delta = '';
+					var deltanum = (dataArr_sido3rd[4] - dataArr_sido3rd[3]).toFixed(1);
+					if (isNaN(deltanum))
+						deltanum = 0;
+					if (deltanum >= 0){
+		            	delta += '<span class="red" style="font-size: 24px;">&nbsp;&nbsp; vs어제 ' + deltanum + '%↑</span>';
+		            } else{
+		            	delta += '<span class="blue" style="font-size: 24px;>&nbsp;&nbsp; vs어제 ' + deltanum + '%↓</span>';
+		            }
+		            jupjong.innerHTML = dataArr_sido3rd[4] + '%' + delta;
+					if (typeof dataArr_sido3rd[4] == 'undefined')
+						jupjong.innerHTML = 0 + '%' + delta;
+		            jupjong.style.fontSize = '40px';
+					
+			            
+			            
 					const ctx8 = document.getElementById('myChart8').getContext('2d');
 					const myChart8 = new Chart(ctx8, {
 						type: 'line',
@@ -1425,7 +1283,7 @@ if(sido == '서울특별시')
 					    });
 					}
 			}
-		xhr.open('GET', '/vaccinestaticsevlet', true);
+		xhr.open('GET', '/vaccinestaticsevlet?period=5', true);
 		xhr.send();
 	}
 
@@ -1438,76 +1296,104 @@ if(sido == '서울특별시')
 
 <div class="title" id="mytitle"><h2>HOME</h2></div>
  <%@ include file="/include/topnav.jsp" %>
- <%@ include file="/include/chat.jsp" %>
 
 
-<div style="overflow:auto">
-
-
-
-
-  
-
-  
-
-
-
-
-   
-       	<div id ="countryCovidCharthome1" OnClick="location.href='/view/CovidStatusview.jsp'">	
-	<div class ="countryCovidChartDiv">국내 확진자 현황</div>
+<div class="container-fluid py-3">
+<div class="row row-cols-1 row-cols-sm-2 g-0 sm-gx-4 border-primary">
+	
+	<div class="col p-3"> 
+        <div class="p-5 text-white bg-dark rounded-3 shadow">
+          <h2 id="huckjintitle">총 확진자</h2>
+          <p id="huckjin"></p>
+        </div>
+      </div>
+   	
+	<div class="col  p-3">
+        <div class="p-5 bg-light border rounded-3 shadow">
+          <h2 id="jupjongtitle">3차 접종률</h2>
+          <p id="jupjong"></p>
+        </div>
+      </div>
+	</div>
+<div class="row row-cols-1 row-cols-sm-3 g-3 g-sm-0 border-light">
+	<div class="col p-3">
+	<div class="p-2 shadow rounded" id ="CovidCharthome1">	
+	<div class ="countryCovidChartDiv"  OnClick="location.href='/view/CovidStatusview.jsp'">국내 확진자 현황</div>
    		<canvas id="myChart1" ></canvas>
    		</div>
-        	<div id ="countryCovidCharthome2" OnClick="location.href='/view/CovidStatusview.jsp'">	
-	<div class ="countryCovidChartDiv">확진자 전일대비 증감 수</div>
+   	</div>
+<%-- 	<div class="col">
+        	<div class="p-2  rounded" id ="countryCovidCharthome2" >	
+	<div class ="countryCovidChartDiv" OnClick="location.href='/view/CovidStatusview.jsp'">확진자 전일대비 증감 수</div>
    		<canvas id="myChart2" ></canvas>
    		</div>
+   	</div> --%>
 
   
-    		<div id ="countryCovidCharthome1">	
+	<div class="col p-3">
+    		<div class="p-2 shadow rounded" id ="countryCovidCharthome1">	
 				<div class ="countryCovidChartDiv" OnClick="location.href='/view/CountryCovidStatus.jsp'">주요국 일일 확진자 현황</div>
    			<canvas id="myChart3" ></canvas>
    			</div>
-
-   		 <div id ="countryCovidCharthome2">
+   	</div>
+<%-- 	<div class="col">
+   		 <div class="p-2  rounded" id ="countryCovidCharthome2">
 				<div class ="countryCovidChartDiv" OnClick="location.href='/view/CountryCovidStatus.jsp'">주요국 일일 사망자 현황</div>
    			<canvas id="myChart4" ></canvas>
    			</div>
+   	</div> --%>
+<%--  
+	<div class="col p-3">
    			<!-- 예방접종현황 -->
-	<div id ="vacstatushome1">
-	<div id = "vacstatushome1div" OnClick="location.href='/view/VaccineStatics.jsp'">우리지역 1차, 2차 접종률</div>
-   		<canvas id="myChart7" ></canvas>
+		<div class="p-2 shadow rounded" id ="vacstatushome1">
+		<div class ="countryCovidChartDiv" id = "vacstatushome1div" OnClick="location.href='/view/VaccineStatics.jsp'">우리지역 1차, 2차 접종률</div>
+	   		<canvas id="myChart7" ></canvas>
    	
    	</div>
-   	
-   	<div id ="vacstatushome2">
-   	<div id="vacstatushome1div" OnClick="location.href='/view/VaccineStatics.jsp'">우리지역 3차 접종률</div>
-   		<canvas id="myChart8"></canvas>
+   	</div>
+   	 --%>
+  	
+	<div class="col p-3">
+	   	<div class="p-2 shadow rounded" id ="vacstatushome2">
+	   	<div class ="countryCovidChartDiv" id="vacstatushome1div" OnClick="location.href='/view/VaccineStatics.jsp'">우리지역 3차 접종률</div>
+	   		<canvas id="myChart8"></canvas>
    
-  </div>
-<!--잔여백신  -->
- 	<div class="iframebox" >
-<div id="noshowvaccinehome" OnClick="location.href='/view/NoShowVaccine.jsp'">잔여백신</div>
+  </div> 
+  
+   	</div>
+<!--잔여백신  https가 아니라서 직접예약은 불가능/ https를 사용하려면 도메인등록 -> 인증서 발급인데 서버를 돌려야 도메인등록이 가능 localhost상태 불가능-->
+	<div class="col-12 p-3" style="width: 100%;">
+ 	<div class="p-2 shadow rounded" class="iframebox">
+	<div class ="countryCovidChartDiv" id="noshowvaccinehome" OnClick="location.href='/view/NoShowVaccine.jsp'">잔여백신</div>
  	
-		<iframe id="ifm" src="" frameborder="0" allowfullscreen></iframe>
+		<iframe id="ifm" src="" style="width: 100%; height: 600px;"></iframe>
 <%-- 		<iframe id="ifm" src="https://m.place.naver.com/rest/vaccine?x=${lon}&y=${lat }" width="600" height="600"></iframe> --%>
 	</div>
-<!--homenews  -->
-<div id="homenews">
-<div id="homenewstitle" OnClick="location.href='/view/News.jsp'">뉴스</div>
-	<div id="newscontent" class="row row-cols-1 row-cols-md-5 g-4 border border-light " style="margin: 10px 20px;">
 	</div>
+		
+		<!--homenews  -->
+	<div class="col-12 p-3" style="width: 100%;">
+	<div id="homenews" class="shadow rounded" >
+	<div class ="countryCovidChartDiv" id="homenewstitle" OnClick="location.href='/view/News.jsp'">뉴스</div>
+		<div id="newscontent" class="row row-cols-1 row-cols-md-4 g-3 border border-light " style="margin: 10px 20px;">
+		</div>
+		</div>
 	</div>
-<!--homevideo news  -->
-<div id="homevideonews">
- <div id="homevideonewstitle" OnClick="location.href='/view/YoutubNews.jsp'">동영상 뉴스</div>
-	<div id="videonewscontent" class="row row-cols-1 row-cols-md-5 g-4 border border-light " style="margin: 10px 20px;">
+	<!--homevideo news  -->
+	<div class="col-12 p-3" style="width: 100%;">
+	<div id="homevideonews" class="shadow rounded" >
+	 <div class ="countryCovidChartDiv" id="homevideonewstitle" OnClick="location.href='/view/YoutubNews.jsp'">동영상 뉴스</div>
+		<div id="videonewscontent" class="row row-cols-1 row-cols-md-4 g-3 border border-light " style="margin: 10px 20px;">
+		</div>
+		</div>
 	</div>
-	</div>
-<!--homevideo news  -->
-	</div>
- <%@ include file="/include/bottomnav.jsp" %>
+	<!--homevideo news  -->
+		
+</div>
+</div>  
 
+
+ <%@ include file="/include/bottomnav.jsp" %>
 
 
 

@@ -115,7 +115,7 @@ public class CovidStatusDao {
 			   try {
 				   DBConn db = new DBConn();
 				   conn = db.getConnection();
-				   String sql = "SELECT TO_CHAR((SELECT MAX(STDDAY) FROM COVIDSTATUS), 'yyyyMMdd') FROM DUAL";
+				   String sql = "SELECT TO_CHAR((SELECT NVL(MAX(STDDAY) , SYSDATE - 15) FROM COVIDSTATUS), 'yyyyMMdd') FROM DUAL";
 				   pstmt = conn.prepareStatement(sql);
 				   rs = pstmt.executeQuery();
 				   

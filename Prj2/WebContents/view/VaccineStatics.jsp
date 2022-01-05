@@ -7,14 +7,17 @@
 <meta charset="UTF-8">
 	 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/css/prj2.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" ></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" ></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.esm.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/helpers.esm.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/css/prj2.css">
 <style>
 </style>
 <script>
@@ -127,7 +130,7 @@
 						var obj = JSON.parse(get_data);
 						
 						var data = obj.data;
-						var html = '<tr>'+
+						var html = '<thead><tr>'+
 						       '<th>시도</th>'+
 						       '<th>당일1차 접종통계</th>'+
 						       '<th>당일2차 접종통계</th>'+
@@ -139,7 +142,7 @@
 						       '<th>2차 접종률</th>'+
 						       '<th>3차 접종률</th>'+
 						       '<th>기준일</th>'+
-						       '</tr>';
+						       '</tr></thead><tbody>';
 						       
 						var labelsArr_baseDate = new Array();
 						var dataArr_sido = new Array(); 
@@ -181,9 +184,8 @@
 							var vaccine2_ratio = (ele.totalSecondCnt / ele.population * 100).toFixed(1);
 							var vaccine3_ratio = (ele.totalThirdCnt / ele.population * 100).toFixed(1);
 							
-							if (index < 17 * 5){
-							html += '<tr class="row">';
-							html += '<td id="area" class = "area">' + ele.sido +'</td>';
+							html += '<tr>';
+							html += '<td>' + ele.sido +'</td>';
 							html += '<td>' + ele.firstCnt +'</td>';
 							html += '<td>' + ele.secondCnt +'</td>';
 							html += '<td>' + ele.thirdCnt +'</td>';
@@ -196,7 +198,6 @@
 							html += '<td>' + ele.baseDate +'</td>';
 							html += '</tr>'; 
 							
-							}
 							
 							if (ele.sido == '전국'){
 								dataArr_all1st.push(vaccine1_ratio);
@@ -248,6 +249,7 @@
 							
 							
 						 });
+						html += '</tbody>'
 						document.getElementsByTagName('table')[0].innerHTML = html;
 						
 						
@@ -385,7 +387,7 @@
 						    });
 						}
 				}
-			xhr.open('GET', '/vaccinestaticsevlet', true);
+			xhr.open('GET', '/vaccinestaticsevlet?period=5', true);
 			xhr.send();
 		}
  
@@ -507,26 +509,22 @@
 
  <div class="title" id="mytitle"><h2>예방접종현황</h2></div>
  <%@ include file="/include/topnav.jsp" %>
- <%@ include file="/include/chat.jsp" %>
 	
 	<div class="container-fluid">
 	<div class="row">
-	<div class="col col-sm-6">
+	<div class="col col-sm-6 shadow rounded">
    		<canvas id="myChart1" ></canvas>
    	</div>
-   	<div class="col col-sm-6">
+   	<div class="col col-sm-6 shadow rounded" >
    		<canvas id="myChart2"></canvas>
    </div>
    </div>
   
    </div>
-  <main>   
    
-   <table>
+   <table class="table table-striped">
    </table>
    
-   
-  </main>  
  
    
     <%@ include file="/include/bottomnav.jsp" %>

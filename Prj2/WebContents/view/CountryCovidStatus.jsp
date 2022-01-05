@@ -7,13 +7,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="/css/prj2.css">
 
 <title>Insert title here</title>
 <style></style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/css/prj2.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 <script>
 $( function() {
@@ -25,6 +27,7 @@ $( function() {
 
 
 <script>
+/*
 function getyesterday(){
 	var now = new Date();
 	var yesterday = new Date(now.setDate(now.getDate() -2));
@@ -36,6 +39,11 @@ function getyesterday(){
 //	console.log("dateString:" + dateString);
 	return dateString
 }
+*/
+
+
+
+
 
 
 function myFunction() {
@@ -102,8 +110,20 @@ function myFunction() {
 	});  */   
 	
 	function nosearchchartrun(){
-		var yesterday = getyesterday();
-
+		var yesterday = '';
+		
+		$.ajax({
+			url : "/getdbdate",
+			async : false,
+			success : function(date){
+				var year = date.substring(0, 4);
+				var month = date.substring(4, 6);
+				var day = date.substring(6);
+				
+				yesterday = year + '-' + month + '-' + day;
+			}
+		})
+		
      $("#search").css("display", "none");
 		 $(".table2").css("display", "none");
 	   
@@ -111,9 +131,33 @@ function myFunction() {
 	   $.ajax( {
 			//url     : 'http://localhost:9090/CovidStatus/covidstatus',
 			url     : 'http://localhost:9090/countrycovidstatus',
-			// data    : { gubun : $('#gubun').val() },
+			data    : { period : 15},
+			beforeSend : function(){
+				var loading = 
+					'<div class="container-fluid"><div class="d-flex justify-content-center">'+
+				 	'<div class="spinner-border " role="status">'+
+				    '<span class="visually-hidden">Loading...</span>'+
+				 	'</div></div></div>';
+				//$('.loading').html(loading);
+ 				var loadingdiv = document.getElementsByClassName('loadinga');
+				for (var i = 0; i < loadingdiv.length; i++) {
+					$(loadingdiv[i]).append(loading);
+				} 
+			},
 			type    : 'GET',
+/* 			beforeSend : function(){
+
+				var img = new Image();
+				var src = 'img/spinning-loading.gif';
+				img.src = src;
+				
+				var test = document.getElementById('myChart5')
+				test = test.getContext('2d');
+				console.log(test);
+				console.dir(test);
+			}, */
 			success : function( xml ) {
+				
 				//console.log(xml);
 				var labelsArr = new Array();
 				var dataArr = new Array(); 
@@ -175,8 +219,8 @@ function myFunction() {
 					
 					
 					
-					html += '<tr class="row" id="row">';
-					html += '<td id="area" class = "area">' + nationNM +'</td>';
+					html += '<tr >';
+					html += '<td >' + nationNM +'</td>';
 					html += '<td>' + areaNm +'</td>';
 					html += '<td>' + natDefCnt +'</td>';
 					html += '<td>' + natDeathCnt +'</td>';
@@ -247,7 +291,7 @@ function myFunction() {
 					/* countrysaveFunction($(this).find('nationNm').html(), $(this).find('natDefCnt').html()); */
 				})
 				
-						var html1 = '';
+						var html1 = '<tbody>';
 				$($(xml).find('item').get().reverse()).each(function( index ) {
 					if($('#courseID').val()==null || $('#courseID').val()==""){
 					
@@ -262,8 +306,8 @@ function myFunction() {
 					
 					
 					
-					html1 += '<tr class="row" id="row">';
-					html1 += '<td id="area" class = "area">' + nationNM +'</td>';
+					html1 += '<tr >';
+					html1 += '<td >' + nationNM +'</td>';
 					html1 += '<td>' + areaNm +'</td>';
 					html1 += '<td>' + natDefCnt +'</td>';
 					html1 += '<td>' + natDeathCnt +'</td>';
@@ -278,6 +322,7 @@ function myFunction() {
 					
 					/* countrysaveFunction($(this).find('nationNm').html(), $(this).find('natDefCnt').html()); */
 				})
+				html1 += '</tbody>';
 				$('#table1').append(html1)
 				
 				
@@ -364,8 +409,7 @@ function myFunction() {
 						//차트------------------------------------------------------------------
 					//	console.log('labelsArr[1]:' + labelsArr[1]);		
 					//	console.log('dataArr[1]:' + dataArr[1]);
-						const ctx1 = document.getElementById('myChart1')
-								.getContext('2d');
+						const ctx1 = document.getElementById('myChart1').getContext('2d');
 						const myChart1 = new Chart(ctx1, {
 							type : 'line',
 							data : {
@@ -375,36 +419,42 @@ function myFunction() {
 									label : '한국 확진자 현황', // 데이터 범례
 									data : yArrGapnatDefCntkor.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#b91d47",
+									backgroundColor : "#b91d47",
 									fill : false
 								},
 								{
 									label : '일본 확진자 현황', // 데이터 범례
 									data : yArrGapnatDefCntjap.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#00aba9",
+									backgroundColor : "#00aba9",
 									fill : false
 								},
 								{
 									label : '중국 확진자 현황', // 데이터 범례
 									data : yArrGapnatDefCntchi.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#2b5797",
+									backgroundColor : "#2b5797",
 									fill : false
 								},	
 								{
 									label : '미국 확진자 현황', // 데이터 범례
 									data : yArrGapnatDefCntusa.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#e8c3b9",
+									backgroundColor : "#e8c3b9",
 									fill : false
 								},
 								{
 									label : '독일 확진자 현황', // 데이터 범례
 									data : yArrGapnatDefCntGer.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#1e7145",
+									backgroundColor : "#1e7145",
 									fill : false
 								},
 								{
 									label : '인도 확진자 현황', // 데이터 범례
 									data : yArrGapnatDefCntInd.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#8A2BE2",
+									backgroundColor : "#8A2BE2",
 									fill : false
 								}
 								]
@@ -431,36 +481,42 @@ function myFunction() {
 									label : '한국 사망자 현황', // 데이터 범례
 									data : yArrGapnatDeathCntkor.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#b91d47",
+									backgroundColor : "#b91d47",
 									fill : false
 								},
 								{
 									label : '일본 사망자 현황', // 데이터 범례
 									data : yArrGapnatDeathCntjap.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#00aba9",
+									backgroundColor : "#00aba9",
 									fill : false
 								},
 								{
 									label : '중국 사망자 현황', // 데이터 범례
 									data : yArrGapnatDeathCntchi.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#2b5797",
+									backgroundColor : "#2b5797",
 									fill : false
 								},	
 								{
 									label : '미국 사망자 현황', // 데이터 범례
 									data : yArrGapnatDeathCntusa.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#e8c3b9",
+									backgroundColor : "#e8c3b9",
 									fill : false
 								},
 								{
 									label : '독일 사망자 현황', // 데이터 범례
 									data : yArrGapnatDeathCntGer.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#1e7145",
+									backgroundColor : "#1e7145",
 									fill : false
 								},
 								{
 									label : '인도 사망자 현황', // 데이터 범례
 									data : yArrGapnatDeathCntInd.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "#8A2BE2",
+									backgroundColor : "#8A2BE2",
 									fill : false
 								}
 								]
@@ -503,10 +559,14 @@ function myFunction() {
 						    }
 						  }
 						});
+ 		 				var loadingdiv = document.getElementsByClassName('loadinga');
+						$(loadingdiv).remove();
+						
 					},
 					error : function(xhr) {
 						alert(xhr.status + ':' + xhr.statusText);
 					}
+					
 				})
 				
 			}
@@ -521,15 +581,23 @@ function myFunction() {
 	});  */   
 	// 검색시 실행
 		function chartrun(chart1search){
-			var yesterday = getyesterday();
-
-
-	
-		
+			var yesterday = '';
+			
+			$.ajax({
+				url : "/getdbdate",
+				async : false,
+				success : function(date){
+					var year = date.substring(0, 4);
+					var month = date.substring(4, 6);
+					var day = date.substring(6);
+					
+					yesterday = year + '-' + month + '-' + day;
+				}
+			})
 	   $.ajax( {
 			//url     : 'http://localhost:9090/CovidStatus/covidstatus',
 			url     : 'http://localhost:9090/countrycovidstatus',
-			// data    : { gubun : $('#gubun').val() },
+			data    : { period : 15},
 			type    : 'GET',
 			success : function( xml ) {
 			//	console.log(xml);
@@ -574,8 +642,8 @@ function myFunction() {
 					
 			
 					
-					html += '<tr class="row" id="row">';
-					html += '<td id="area" class = "area">' + nationNM +'</td>';
+					html += '<tr >';
+					html += '<td >' + nationNM +'</td>';
 					html += '<td>' + areaNm +'</td>';
 					html += '<td>' + natDefCnt +'</td>';
 					html += '<td>' + natDeathCnt +'</td>';
@@ -626,14 +694,17 @@ function myFunction() {
 				})
 				
 					var html1 = '';
+				html1 += '<thead>';
 				html1 += '<tr>';
-				html1 += '<td>국가명</td>';
-				html1 += '<td>지역명</td>';
-				html1 += '<td>국가별 확진자 수</td>';
-				html1 += '<td>국가별 사망자 수</td>';
-				html1 += '<td>확진률 대비 사망률</td>';
-				html1 += '<td>기준일시</td>';
+				html1 += '<th>국가명</th>';
+				html1 += '<th>지역명</th>';
+				html1 += '<th>국가별 확진자 수</th>';
+				html1 += '<th>국가별 사망자 수</th>';
+				html1 += '<th>확진률 대비 사망률</th>';
+				html1 += '<th>기준일시</th>';
 				html1 += '</tr>';
+				html1 += '</thead>';
+				html1 += '<tbody>';
 				$($(xml).find('item').get().reverse()).each(function( index ) {
 					if($(this).find('nationNm').html()==chart1search || $(this).find('nationNm').html()=="한국"){
 						
@@ -647,8 +718,8 @@ function myFunction() {
 					
 					
 					
-					html1 += '<tr class="row" id="row">';
-					html1 += '<td id="area" class = "area">' + nationNM +'</td>';
+					html1 += '<tr >';
+					html1 += '<td >' + nationNM +'</td>';
 					html1 += '<td>' + areaNm +'</td>';
 					html1 += '<td>' + natDefCnt +'</td>';
 					html1 += '<td>' + natDeathCnt +'</td>';
@@ -662,6 +733,7 @@ function myFunction() {
 					
 					/* countrysaveFunction($(this).find('nationNm').html(), $(this).find('natDefCnt').html()); */
 				})
+				html1 += '</tbody>';
 				$('#table2').html(html1)
 				//차트2-----------------------------------------------
 				// 일일 사망자
@@ -701,6 +773,10 @@ function myFunction() {
 				var xValues = [100,200,300,400,500,600,700,800,900,1000];
 
 	
+				var loadingdiv = document.getElementsByClassName('loadingb');
+				for (var i = 0; i < loadingdiv.length; i++) {
+					loadingdiv[i].remove();
+				} 
 				
 						//차트------------------------------------------------------------------
 					//	console.log('labelsArr[1]:' + labelsArr[1]);		
@@ -717,12 +793,14 @@ function myFunction() {
 									label : '한국 확진자 현황', // 데이터 범례
 									data : yArrGapnatDefCntkor.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "red",
+									backgroundColor : "red",
 									fill : false
 								},
 								{
 									label : chart1search + ' 확진자 현황', // 데이터 범례
 									data : yArrGapnatDefCntsearch.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "blue",
+									backgroundColor : "blue",
 									fill : false
 								}
 								]
@@ -735,6 +813,7 @@ function myFunction() {
 								}
 							}
 						});
+						
 						//차트------------------------------------------------------------------
 						const ctx4 = document.getElementById('myChart4')
 								.getContext('2d');
@@ -747,12 +826,14 @@ function myFunction() {
 									label : '한국 사망자 현황', // 데이터 범례
 									data : yArrGapnatDeathCntkor.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "red",
+									backgroundColor : "red",
 									fill : false
 								},
 								{
 									label : chart1search + ' 사망자 현황', // 데이터 범례
 									data : yArrGapnatDeathCntsearch.reverse(), //y 축 숫자  dataArr = [40905177, 7652368, 2616908 ............]
 									borderColor : "blue",
+									backgroundColor : "blue",
 									fill : false
 								}
 								]
@@ -799,6 +880,7 @@ function myFunction() {
 							    }
 							  }
 							});
+							
 					},
 					error : function(xhr) {
 						alert(xhr.status + ':' + xhr.statusText);
@@ -846,7 +928,6 @@ function myFunction() {
 
 <div class="title" id="mytitle"><h2>해외코로나 현황</h2></div>
  <%@ include file="/include/topnav.jsp" %>
-<%@ include file="/include/chat.jsp" %>
   <div>
     <main>   
  
@@ -858,22 +939,37 @@ function myFunction() {
 	</div>
 	
 
-<div id=nonesearch>
-   	<div id ="countryCovidChart5">
+<div id=nonesearch class="container-fluid">
+	<div class="row">
+   	<div id ="countryCovidChart5" class="col-sm-6 shadow rounded">
     <div id = "countryCovidChart5-1" class ="countryCovidChartDiv">주요국 총 확진자 현황</div>
+    <div class="loadinga"></div>
 	<canvas id="myChart5" ></canvas>
 	</div>
    
 <!-- 	<label>나라명:</label>
 	<input type="text" id="chart1search">
 	<input type="button" id="chart1searchbutton" value="검색"> -->
-	<div id ="countryCovidChart1">	
+	<div class="col-sm-6">
+	
+	<div class="row">
+	<div id ="countryCovidChart1" class="col-sm-12 shadow rounded">	
 	<div class ="countryCovidChartDiv">주요국 일일 확진자 현황</div>
+	    <div class="loadinga"></div>
    		<canvas id="myChart1" ></canvas>
    		</div>
-<div id ="countryCovidChart2">
+   	</div>
+   	
+   	<div class="row">
+	<div id ="countryCovidChart2" class="col-sm-12 shadow rounded">
 	<div class ="countryCovidChartDiv">주요국 일일 사망자 현황</div>
+	    <div class="loadinga"></div>
    		<canvas id="myChart2" ></canvas>
+   </div>
+   </div>
+   
+   </div>
+   
    </div>
    </div>
    
@@ -882,48 +978,64 @@ function myFunction() {
 <!-- 	<label>나라명:</label>
 	<input type="text" id="chart1search">
 	<input type="button" id="chart1searchbutton" value="검색"> -->
-	<div id=search>
-	   	<div id ="countryCovidChart6">
+	<div id=search class="container-fluid">
+		<div class="row">
+	   	<div id ="countryCovidChart6" class="col-sm-6">
     <div  id = "search3" class ="countryCovidChartDiv">주요국 총 확진자 현황</div>
+        <div class="loadingb"></div>
 	<canvas id="myChart6" ></canvas>
 	</div>
-		<div id ="countryCovidChart3">
+	
+	<div class="col-sm-6">
+		<div class="row">
+		<div id ="countryCovidChart3" class="col-sm-12">
 		<div id = "search1" class ="countryCovidChartDiv">일일 확진자 현황</div>
+		    <div class="loadingb"></div>
    		<canvas id="myChart3" ></canvas>
    		</div>
+   	</div>
    		
-<div id ="countryCovidChart4">
+   		<div class="row">
+<div id ="countryCovidChart4" class="col-sm-12">
 	<div id = "search2" class ="countryCovidChartDiv">일일 사망자 현황</div>
+	    <div class="loadingb"></div>
    		<canvas id="myChart4" ></canvas>
+   	</div>
+   </div>
+   </div>
    </div>
    </div>
    
    	
    <div class="table1">
    <div  class ="countryCovidChartDiv">해외코로나 현황표</div>
-   <table id="table1" >
+   <table id="table1" class="table table-striped">
+   <thead>
      <tr>
-       <td>국가명</td>
-       <td>지역명</td>
-       <td>국가별 확진자 수</td>
-       <td>국가별 사망자 수</td>
-       <td>확진률 대비 사망률</td>
-       <td>기준일시</td>
+       <th>국가명</th>
+       <th>지역명</th>
+       <th>국가별 확진자 수</th>
+       <th>국가별 사망자 수</th>
+       <th>확진률 대비 사망률</th>
+       <th>기준일시</th>
      </tr>
+     </thead>
    </table>
    </div>
    
 	<div class="table2">
 	<div id = "search4" class ="countryCovidChartDiv">해외코로나 현황표</div>
-   <table id="table2" >
+   <table id="table2" class="table table-striped" >
+   <thead>
      <tr>
-       <td>국가명</td>
-       <td>지역명</td>
-       <td>국가별 확진자 수</td>
-       <td>국가별 사망자 수</td>
-       <td>확진률 대비 사망률</td>
-       <td>기준일시</td>
+       <th>국가명</th>
+       <th>지역명</th>
+       <th>국가별 확진자 수</th>
+       <th>국가별 사망자 수</th>
+       <th>확진률 대비 사망률</th>
+       <th>기준일시</th>
      </tr>
+     </thead>
    </table>
    </div>
    

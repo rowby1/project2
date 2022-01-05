@@ -33,7 +33,7 @@ public class VaccineStaticsServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
-		String period = request.getParameter("period");
+		int period = Integer.parseInt(request.getParameter("period"));
 		// period = 5 -> 오늘(있을시에) , 어제 , 2일전, 3일전, 4일전, 5일전 데이터를 
 		// ajax로 출력하는 서블렛임
 
@@ -67,8 +67,8 @@ public class VaccineStaticsServlet extends HttpServlet {
 					}
 				
 				//DB에서 15일치 들고와서 뿌림
-				json = vsDao.getPeriodData(15).toString();
-				//json = vsDao.getPeriodData(period).toString();
+				//json = vsDao.getPeriodData(15).toString();
+				json = vsDao.getPeriodData(period).toString();
 			} else {
 				
 				// DB에서 최신날짜를 뽑아냄
@@ -99,8 +99,8 @@ public class VaccineStaticsServlet extends HttpServlet {
 					//  dataGap = 0 오늘꺼, dataGap = 1 오늘꺼, 어제꺼, dateGap = 2 오늘꺼, 어제꺼, 2일전꺼 .........
 					}
 				//DB에서 15일치 들고와서 뿌림
-				json = vsDao.getPeriodData(15).toString();
-				//json = vsDao.getPeriodData(period).toString();
+				//json = vsDao.getPeriodData(15).toString();
+				json = vsDao.getPeriodData(period).toString();
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();

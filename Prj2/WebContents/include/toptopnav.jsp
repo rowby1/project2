@@ -7,22 +7,33 @@ String id = (String) session.getAttribute("id");
 %>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
-
-
-
-<div class="toptopnav" id="mytopTopnav">
-		<%-- 	<div onclick="location.href='/mboard?cmd=HOME&id=<%=id%>'" class="toptopnavtitle"><i class="fas fa-info-circle">My코로나</i></div> --%>	
+<style>
+	.btntoptopnav{ font-size: 12px; height: 30px; }
+	.outtoptopnav{ height: 45px;}
+</style>
+		<%-- 	<div onclick="location.href='/mboard?cmd=HOME&id=<%=id%>'" class="toptopnavtitle"><i class="fas fa-info-circle">My코로나</i></div> --%>
 		<c:choose>
 		<c:when test="${id != null }">
-			<a href="/mboard?cmd=COVIDINFOFORM&id=<%=id%>"><i class="fas fa-info-circle">개인코로나정보</i></a>
-			<a href="/mboard?cmd=MEMINFOFORM&id=<%=id%>"><i class="fas fa-user-edit">회원정보</i></a>
-			<a href="/mboard?cmd=LOGOUT"><i class="fas fa-sign-out-alt">로그아웃</i></a>
+	 	<nav class="py-2 bg-light border-bottom outtoptopnav">
+	    <div class="container-fluid text-end">
+	    	<a class="btn btn-outline-primary me-2 btntoptopnav" href="/mboard?cmd=LOGOUT"><i class="fas fa-sign-out-alt">로그아웃</i></a>
+	    	<a class="btn btn-primary btntoptopnav" href="/mboard?cmd=MEMINFOFORM&id=<%=id%>"><i class="fas fa-user-edit">회원정보</i></a>
+	      	<a class="btn btn-primary btntoptopnav" href="/mboard?cmd=COVIDINFOFORM&id=<%=id%>"><i class="fas fa-info-circle">개인코로나정보</i></a>
+	    </div>
+  		</nav>
 		</c:when>
+		</c:choose>
 		
+		<c:choose>
 		<c:when test="${id == null }">
-			<a href="memReg.jsp"><i class="fas fa-file-signature">회원가입</i></a>
-			<a href="/mboard?cmd=LOGIN"><i class="fas fa-sign-in-alt">로그인</i></a>
+	 	<nav class="py-2 bg-light border-bottom outtoptopnav">
+	    <div class="container-fluid text-end">
+	      	<a href="/view/login.jsp" class="btn btn-outline-primary me-2 btntoptopnav"><i class="fas fa-sign-in-alt">로그인</i></a>
+	      	<a href="/view/memReg.jsp" class="btn btn-primary btntoptopnav"><i class="fas fa-file-signature">회원가입</i></a>
+	    </div>
+  		</nav>
 		</c:when>
-	</c:choose>
-	<a href="javascript:void(0);" class="icon" onclick="myFunction()"></a>
-</div>
+		</c:choose>
+
+
+		 

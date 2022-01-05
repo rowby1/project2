@@ -13,9 +13,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="/css/prj2.css">
 <title>Insert title here</title>
 <style>
+	.container {width: 80%;}
    form  td:nth-child(1)     { width:200px; }
    form  td:nth-child(2)     { width: 800px; }
    form  tr:nth-of-type(3)   { height:400px; }
@@ -53,7 +56,7 @@ window.onload = function() {
 			e.preventDefault(); // submit 취소
 			e.stopPropagation();
 			
-			location.href = "/mboard?cmd=VIEW&bnum=${boardVo.bnum}&id=${boardVo.id}" ;
+			location.href = "/mboard?cmd=BOARD" ;
 			break;
 		}
 		
@@ -68,16 +71,15 @@ window.onload = function() {
 
  <div class="title" id="mytitle"><h2>사회적거리두기</h2></div>
  <%@ include file="/include/topnav.jsp" %>
- <%@ include file="/include/chat.jsp" %>
 
    <main>
-   
+	<div class="container">   
      <!-- <form  action="/board?cmd=WRITE&id=" method="POST"> -->
      <form  action="/mboard?cmd=WRITE" method="POST">
      <!-- <input type="hidden"  name="id"  value="${ id }" /> -->
      <input type="hidden"  name="id"  value="<%=uid %>" />
      <table>
-      <caption><h2>게시판 글 쓰기</h2></caption>
+      	 <h2 class="title">게시판 글 쓰기</h2>
       <tr>
         <td>제목</td>
         <td><input type="text" class="width" name="btitle" /></td>
@@ -99,6 +101,7 @@ window.onload = function() {
       </tr>
      </table> 
      </form>    
+     </div>
    </main>
 <%@ include file="/include/bottomnav.jsp" %>
 </body>

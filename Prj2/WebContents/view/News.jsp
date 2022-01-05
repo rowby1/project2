@@ -6,13 +6,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/css/prj2.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 /* 	#link {all :unset !important;}
 	#link:active{all :unset !important;}
 	#link:hover{all :unset !important;} */
 </style>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js" integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 	$(function(){
@@ -21,6 +22,14 @@
 		$.ajax({
 			url : '/news',
 			data : {},
+			beforeSend : function(){
+				var loading = '<div class="container-fluid"><div class="d-flex justify-content-center">'+
+				  '<div class="spinner-border" role="status">'+
+				    '<span class="visually-hidden">Loading...</span>'+
+				  '</div></div></div>';
+				  
+				$('#newscontent').html(loading);
+			},
 			success : function(json){
 				$.each(json, function(index, data){
 					
@@ -71,7 +80,6 @@
 
  <div class="title" id="mytitle"><h2>코로나 뉴스</h2></div>
  <%@ include file="/include/topnav.jsp" %>
- <%@ include file="/include/chat.jsp" %>
  
 	<div id="newscontent" class="row row-cols-1 row-cols-md-5 g-4 border border-light " style="margin: 10px 20px;">
 	</div>
